@@ -1,0 +1,55 @@
+---
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+
+interface Props {
+  title?: string
+  description?: string
+  image?: string
+  noIndex?: boolean
+}
+
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  image,
+  noIndex = false,
+} = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      image={image}
+      noIndex={noIndex}
+    />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+</style>
