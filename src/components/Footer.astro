@@ -8,7 +8,7 @@ const currentYear = new Date().getFullYear()
   <div class="footer-content">
     <div class="footer-brand">
       <a href="/" class="footer-logo">
-        <span class="logo-icon">🛡️</span>
+        <img src="/logo-64.png" alt="SIP Protocol" class="logo-img" width="28" height="28" />
         <span>{SITE_TITLE}</span>
       </a>
       <p class="tagline">The privacy standard for Web3</p>
@@ -32,7 +32,7 @@ const currentYear = new Date().getFullYear()
       <div class="link-group">
         <h4>Community</h4>
         <a
-          href={`https://twitter.com/${TWITTER_HANDLE.replace('@', '')}`}
+          href={`https://x.com/${TWITTER_HANDLE.replace('@', '')}`}
           target="_blank"
           rel="noopener"
         >
@@ -83,8 +83,8 @@ const currentYear = new Date().getFullYear()
     font-size: 1.125rem;
   }
 
-  .logo-icon {
-    font-size: 1.5rem;
+  .logo-img {
+    border-radius: 4px;
   }
 
   .tagline {

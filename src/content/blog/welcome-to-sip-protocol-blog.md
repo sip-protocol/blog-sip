@@ -65,7 +65,7 @@ In the weeks ahead, expect posts on:
 - **Website**: [sip-protocol.org](https://sip-protocol.org)
 - **Documentation**: [docs.sip-protocol.org](https://docs.sip-protocol.org)
 - **GitHub**: [github.com/sip-protocol](https://github.com/sip-protocol)
-- **Twitter/X**: [@sipprotocol](https://twitter.com/sipprotocol)
+- **Twitter/X**: [@sipprotocol](https://x.com/sipprotocol)
 
 Welcome to the journey toward making privacy the standard for Web3.
 

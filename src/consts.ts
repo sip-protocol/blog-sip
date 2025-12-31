@@ -18,7 +18,7 @@ export const ORGANIZATION = {
   url: 'https://sip-protocol.org',
   logo: 'https://sip-protocol.org/logo.png',
   sameAs: [
-    'https://twitter.com/sipprotocol',
+    'https://x.com/sipprotocol',
     'https://github.com/sip-protocol',
   ],
 }

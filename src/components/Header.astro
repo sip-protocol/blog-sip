@@ -7,7 +7,7 @@ import HeaderLink from './HeaderLink.astro'
   <nav>
     <div class="nav-brand">
       <a href="/" class="logo">
-        <span class="logo-icon">🛡️</span>
+        <img src="/logo-64.png" alt="SIP Protocol" class="logo-img" width="32" height="32" />
         <span class="logo-text">{SITE_TITLE}</span>
       </a>
     </div>
@@ -23,7 +23,7 @@ import HeaderLink from './HeaderLink.astro'
 
     <div class="nav-social">
       <a
-        href={`https://twitter.com/${TWITTER_HANDLE.replace('@', '')}`}
+        href={`https://x.com/${TWITTER_HANDLE.replace('@', '')}`}
         target="_blank"
         rel="noopener"
         aria-label="Follow SIP Protocol on Twitter"
@@ -98,8 +98,8 @@ import HeaderLink from './HeaderLink.astro'
     color: var(--sip-primary);
   }
 
-  .logo-icon {
-    font-size: 1.5rem;
+  .logo-img {
+    border-radius: 6px;
   }
 
   .nav-links {
