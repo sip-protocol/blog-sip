@@ -8,9 +8,20 @@ import FormattedDate from '../components/FormattedDate.astro'
 import ArticleSchema from '../components/ArticleSchema.astro'
 import TLDRBox from '../components/TLDRBox.astro'
 import CopyCodeButton from '../components/CopyCodeButton.astro'
+import ReadingProgress from '../components/ReadingProgress.astro'
+import PostNavigation from '../components/PostNavigation.astro'
 import { SITE_URL } from '../consts'
 
-type Props = CollectionEntry<'blog'>['data'] & { slug: string }
+interface NavPost {
+  slug: string
+  title: string
+}
+
+type Props = CollectionEntry<'blog'>['data'] & {
+  slug: string
+  prevPost?: NavPost
+  nextPost?: NavPost
+}
 
 const {
   title,
@@ -26,6 +37,8 @@ const {
   canonicalUrl,
   noIndex,
   slug,
+  prevPost,
+  nextPost,
 } = Astro.props
 
 const articleUrl = `${SITE_URL}/blog/${slug}/`
@@ -64,6 +77,7 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
   </head>
 
   <body>
+    <ReadingProgress />
     <a href="#main-content" class="skip-link">Skip to content</a>
     <Header />
     <main id="main-content">
@@ -133,6 +147,8 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
           <div class="prose" itemprop="articleBody">
             <slot />
           </div>
+
+          <PostNavigation prevPost={prevPost} nextPost={nextPost} />
         </div>
       </article>
     </main>

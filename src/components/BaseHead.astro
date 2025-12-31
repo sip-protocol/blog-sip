@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { ViewTransitions } from 'astro:transitions'
 import type { ImageMetadata } from 'astro'
 import FallbackImage from '../assets/blog-placeholder-1.jpg'
 import {
@@ -154,3 +155,6 @@ const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`
 
 <!-- JSON-LD slot (for structured data) -->
 <slot name="json-ld" />
+
+<!-- View Transitions -->
+<ViewTransitions />

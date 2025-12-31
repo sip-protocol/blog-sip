@@ -1,43 +1,108 @@
 ---
 /**
- * CopyCodeButton - Global script to add copy buttons to all code blocks
+ * CopyCodeButton - Global script to add copy buttons and language labels to all code blocks
  * Include this component in BaseLayout to enable copy on all pages
  */
+
+// Language display names
+const languageLabels: Record<string, string> = {
+  js: 'JavaScript',
+  javascript: 'JavaScript',
+  ts: 'TypeScript',
+  typescript: 'TypeScript',
+  jsx: 'JSX',
+  tsx: 'TSX',
+  html: 'HTML',
+  css: 'CSS',
+  scss: 'SCSS',
+  json: 'JSON',
+  yaml: 'YAML',
+  yml: 'YAML',
+  md: 'Markdown',
+  markdown: 'Markdown',
+  bash: 'Bash',
+  sh: 'Shell',
+  shell: 'Shell',
+  zsh: 'Zsh',
+  python: 'Python',
+  py: 'Python',
+  rust: 'Rust',
+  rs: 'Rust',
+  go: 'Go',
+  sql: 'SQL',
+  graphql: 'GraphQL',
+  gql: 'GraphQL',
+  toml: 'TOML',
+  ini: 'INI',
+  dockerfile: 'Dockerfile',
+  docker: 'Docker',
+  nginx: 'Nginx',
+  plaintext: 'Text',
+  text: 'Text',
+  txt: 'Text',
+  diff: 'Diff',
+  solidity: 'Solidity',
+  sol: 'Solidity',
+  noir: 'Noir',
+  move: 'Move',
+}
 ---
 
-<script>
-  function addCopyButtons() {
-    document.querySelectorAll('pre:not(.copy-enabled)').forEach((pre) => {
-      pre.classList.add('copy-enabled')
+<script define:vars={{ languageLabels }}>
+  function addCodeEnhancements() {
+    document.querySelectorAll('pre:not(.code-enhanced)').forEach((pre) => {
+      pre.classList.add('code-enhanced')
       pre.style.position = 'relative'
 
+      const code = pre.querySelector('code')
+      const lang = code?.getAttribute('data-language') ||
+                   code?.className.match(/language-(\w+)/)?.[1] ||
+                   ''
+
+      // Create wrapper for header elements
+      const header = document.createElement('div')
+      header.className = 'code-header'
+
+      // Add language label
+      if (lang && lang !== 'plaintext' && lang !== 'text') {
+        const label = document.createElement('span')
+        label.className = 'code-lang'
+        label.textContent = languageLabels[lang.toLowerCase()] || lang.toUpperCase()
+        header.appendChild(label)
+      }
+
+      // Create copy button
       const button = document.createElement('button')
       button.className = 'code-copy-btn'
       button.setAttribute('aria-label', 'Copy code')
       button.innerHTML = `
-        <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
-        <svg class="check-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="check-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
+        <span class="copy-text">Copy</span>
       `
 
       button.addEventListener('click', async () => {
-        const code = pre.querySelector('code')?.textContent || ''
-        const copyIcon = button.querySelector('.copy-icon') as HTMLElement
-        const checkIcon = button.querySelector('.check-icon') as HTMLElement
+        const codeText = code?.textContent || ''
+        const copyIcon = button.querySelector('.copy-icon')
+        const checkIcon = button.querySelector('.check-icon')
+        const copyText = button.querySelector('.copy-text')
 
         try {
-          await navigator.clipboard.writeText(code)
+          await navigator.clipboard.writeText(codeText)
           copyIcon.style.display = 'none'
           checkIcon.style.display = 'block'
+          copyText.textContent = 'Copied!'
           button.classList.add('copied')
 
           setTimeout(() => {
             copyIcon.style.display = 'block'
             checkIcon.style.display = 'none'
+            copyText.textContent = 'Copy'
             button.classList.remove('copied')
           }, 2000)
         } catch (err) {
@@ -45,53 +110,86 @@
         }
       })
 
-      pre.appendChild(button)
+      header.appendChild(button)
+      pre.insertBefore(header, pre.firstChild)
     })
   }
 
   // Run on initial load
-  addCopyButtons()
+  addCodeEnhancements()
 
   // Run after view transitions
-  document.addEventListener('astro:after-swap', addCopyButtons)
+  document.addEventListener('astro:after-swap', addCodeEnhancements)
 </script>
 
 <style is:global>
-  pre.copy-enabled {
+  pre.code-enhanced {
     position: relative;
+    padding-top: 2.75rem !important;
+  }
+
+  .code-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .code-lang {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-sans);
   }
 
   .code-copy-btn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 6px;
-    padding: 0.5rem;
-    cursor: pointer;
-    color: #858585;
-    transition: all 0.2s ease;
-    z-index: 10;
     display: flex;
     align-items: center;
-    justify-content: center;
-    opacity: 0;
-  }
-
-  pre:hover .code-copy-btn,
-  .code-copy-btn:focus {
-    opacity: 1;
+    gap: 0.375rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.6875rem;
+    font-family: var(--font-sans);
+    transition: all var(--transition-fast) ease;
   }
 
   .code-copy-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
   .code-copy-btn.copied {
     color: #10b981;
-    background: rgba(16, 185, 129, 0.2);
-    opacity: 1;
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+
+  .copy-text {
+    font-weight: 500;
+  }
+
+  /* Hide text on small screens */
+  @media (max-width: 480px) {
+    .copy-text {
+      display: none;
+    }
+
+    .code-copy-btn {
+      padding: 0.375rem;
+    }
   }
 </style>
