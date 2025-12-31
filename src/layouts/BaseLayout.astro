@@ -47,14 +47,14 @@ const {
     top: -100%;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--sip-primary);
+    background: var(--sip-gradient);
     color: white;
     padding: 0.75rem 1.5rem;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
     text-decoration: none;
     font-weight: 500;
-    z-index: 1000;
-    transition: top 0.2s ease;
+    z-index: var(--z-modal);
+    transition: top var(--transition-normal) ease;
   }
 
   .skip-link:focus {
@@ -70,7 +70,7 @@ const {
   main {
     flex: 1;
     width: 100%;
-    max-width: 1200px;
+    max-width: 75rem;
     margin: 0 auto;
     padding: 2rem 1.5rem;
   }

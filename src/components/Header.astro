@@ -1,85 +1,246 @@
 ---
 import { SITE_TITLE, TWITTER_HANDLE, GITHUB_URL } from '../consts'
-import HeaderLink from './HeaderLink.astro'
+import ThemeToggle from './ThemeToggle.astro'
+
+const pathname = Astro.url.pathname
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+]
+
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/'
+  return pathname.startsWith(href)
+}
 ---
 
-<header>
-  <nav>
+<header class="header">
+  <nav class="nav-container">
+    <!-- Logo -->
     <div class="nav-brand">
       <a href="/" class="logo">
-        <img src="/logo-64.png" alt="SIP Protocol" class="logo-img" width="32" height="32" />
+        <img
+          src="/logo-64.png"
+          alt="SIP Protocol"
+          class="logo-img"
+          width="32"
+          height="32"
+        />
         <span class="logo-text">{SITE_TITLE}</span>
       </a>
     </div>
 
+    <!-- Desktop Navigation -->
     <div class="nav-links">
-      <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/about">About</HeaderLink>
-      <a href="https://docs.sip-protocol.org" target="_blank" rel="noopener">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={['nav-link', { active: isActive(link.href) }]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="https://docs.sip-protocol.org"
+        target="_blank"
+        rel="noopener"
+        class="nav-link"
+      >
         Docs
-      </a>
-    </div>
-
-    <div class="nav-social">
-      <a
-        href={`https://x.com/${TWITTER_HANDLE.replace('@', '')}`}
-        target="_blank"
-        rel="noopener"
-        aria-label="Follow SIP Protocol on Twitter"
-      >
-        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-          <path
-            fill="currentColor"
-            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-          />
-        </svg>
-      </a>
-      <a
-        href={GITHUB_URL}
-        target="_blank"
-        rel="noopener"
-        aria-label="SIP Protocol on GitHub"
-      >
-        <svg viewBox="0 0 16 16" width="24" height="24" aria-hidden="true">
-          <path
-            fill="currentColor"
-            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-          />
+        <svg
+          class="external-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
         </svg>
       </a>
     </div>
 
-    <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
-      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-        <path
-          fill="currentColor"
-          d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-        />
-      </svg>
-    </button>
+    <!-- Actions -->
+    <div class="nav-actions">
+      <div class="nav-social">
+        <a
+          href={`https://x.com/${TWITTER_HANDLE.replace('@', '')}`}
+          target="_blank"
+          rel="noopener"
+          aria-label="Follow SIP Protocol on X"
+          class="social-link"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+            />
+          </svg>
+        </a>
+        <a
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener"
+          aria-label="SIP Protocol on GitHub"
+          class="social-link"
+        >
+          <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <ThemeToggle />
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="mobile-menu-btn"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg
+          class="menu-icon"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+          />
+        </svg>
+        <svg
+          class="close-icon"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+          />
+        </svg>
+      </button>
+    </div>
   </nav>
+
+  <!-- Mobile Menu Drawer -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-content">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={['mobile-nav-link', { active: isActive(link.href) }]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="https://docs.sip-protocol.org"
+        target="_blank"
+        rel="noopener"
+        class="mobile-nav-link"
+      >
+        Docs
+        <svg
+          class="external-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
+        </svg>
+      </a>
+
+      <div class="mobile-social">
+        <a
+          href={`https://x.com/${TWITTER_HANDLE.replace('@', '')}`}
+          target="_blank"
+          rel="noopener"
+          aria-label="Follow SIP Protocol on X"
+          class="social-link"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+            />
+          </svg>
+        </a>
+        <a
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener"
+          aria-label="SIP Protocol on GitHub"
+          class="social-link"
+        >
+          <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile backdrop -->
+  <div id="mobile-backdrop" class="mobile-backdrop"></div>
 </header>
 
 <style>
-  header {
+  /* Header - Sticky with blur */
+  .header {
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgb(var(--gray-light));
+    z-index: var(--z-sticky);
+    background: var(--header-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--header-border);
+    transition: box-shadow var(--transition-normal) ease,
+                border-color var(--transition-normal) ease;
   }
 
-  nav {
+  .header.scrolled {
+    box-shadow: var(--box-shadow);
+    border-color: var(--border-primary);
+  }
+
+  .nav-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: 75rem;
     margin: 0 auto;
     padding: 0.75rem 1.5rem;
   }
 
+  /* Logo */
   .nav-brand {
     flex-shrink: 0;
   }
@@ -91,7 +252,8 @@ import HeaderLink from './HeaderLink.astro'
     text-decoration: none;
     font-weight: 700;
     font-size: 1.125rem;
-    color: rgb(var(--black));
+    color: var(--text-primary);
+    transition: color var(--transition-fast) ease;
   }
 
   .logo:hover {
@@ -99,71 +261,265 @@ import HeaderLink from './HeaderLink.astro'
   }
 
   .logo-img {
-    border-radius: 6px;
+    border-radius: var(--radius-md);
   }
 
+  .logo-text {
+    display: none;
+  }
+
+  @media (min-width: 480px) {
+    .logo-text {
+      display: inline;
+    }
+  }
+
+  /* Desktop Navigation */
   .nav-links {
-    display: flex;
+    display: none;
     align-items: center;
     gap: 0.25rem;
   }
 
-  .nav-links a {
+  @media (min-width: 768px) {
+    .nav-links {
+      display: flex;
+    }
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
     padding: 0.5rem 1rem;
-    color: rgb(var(--gray-dark));
+    color: var(--text-secondary);
     text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-  }
-
-  .nav-links a:hover {
-    background: rgba(var(--gray-light), 0.5);
-    color: var(--sip-primary);
-  }
-
-  .nav-links a.active {
-    color: var(--sip-primary);
+    font-size: 0.9375rem;
     font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast) ease;
   }
 
-  .nav-social {
+  .nav-link:hover {
+    background: var(--bg-secondary);
+    color: var(--sip-primary);
+  }
+
+  .nav-link.active {
+    color: var(--sip-primary);
+    background: var(--bg-secondary);
+  }
+
+  .external-icon {
+    opacity: 0.5;
+  }
+
+  /* Actions */
+  .nav-actions {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
 
-  .nav-social a {
+  .nav-social {
+    display: none;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .nav-social {
+      display: flex;
+    }
+  }
+
+  .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
-    color: rgb(var(--gray));
-    border-radius: 6px;
-    transition: all 0.2s ease;
+    color: var(--text-tertiary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast) ease;
   }
 
-  .nav-social a:hover {
-    background: rgba(var(--gray-light), 0.5);
+  .social-link:hover {
+    background: var(--bg-secondary);
     color: var(--sip-primary);
   }
 
+  /* Mobile Menu Button */
   .mobile-menu-btn {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.5rem;
     background: none;
     border: none;
     cursor: pointer;
-    color: rgb(var(--gray-dark));
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast) ease;
   }
 
-  @media (max-width: 768px) {
-    .nav-links,
-    .nav-social {
+  .mobile-menu-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--sip-primary);
+  }
+
+  .mobile-menu-btn .close-icon {
+    display: none;
+  }
+
+  .mobile-menu-btn[aria-expanded="true"] .menu-icon {
+    display: none;
+  }
+
+  .mobile-menu-btn[aria-expanded="true"] .close-icon {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-menu-btn {
       display: none;
     }
+  }
 
-    .mobile-menu-btn {
-      display: flex;
+  /* Mobile Menu Drawer */
+  .mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-primary);
+    box-shadow: var(--box-shadow-lg);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform var(--transition-slow) ease,
+                opacity var(--transition-slow) ease,
+                visibility var(--transition-slow) ease;
+  }
+
+  .mobile-menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-menu-content {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.5rem 1.5rem;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast) ease;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link.active {
+    background: var(--bg-secondary);
+    color: var(--sip-primary);
+  }
+
+  .mobile-social {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-primary);
+  }
+
+  /* Backdrop */
+  .mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-slow) ease,
+                visibility var(--transition-slow) ease;
+    z-index: -1;
+  }
+
+  .mobile-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-menu,
+    .mobile-backdrop {
+      display: none;
     }
   }
 </style>
+
+<script>
+  function initHeader() {
+    const header = document.querySelector('.header');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const backdrop = document.getElementById('mobile-backdrop');
+
+    if (!header || !mobileMenuBtn || !mobileMenu || !backdrop) return;
+
+    // Scroll effect
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    // Mobile menu toggle
+    const toggleMenu = (open?: boolean) => {
+      const isOpen = open ?? mobileMenuBtn.getAttribute('aria-expanded') !== 'true';
+
+      mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+      mobileMenu.classList.toggle('open', isOpen);
+      backdrop.classList.toggle('open', isOpen);
+
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    };
+
+    mobileMenuBtn.addEventListener('click', () => toggleMenu());
+    backdrop.addEventListener('click', () => toggleMenu(false));
+
+    // Close menu on link click
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    // Close on escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenuBtn.getAttribute('aria-expanded') === 'true') {
+        toggleMenu(false);
+        mobileMenuBtn.focus();
+      }
+    });
+  }
+
+  // Run on initial load
+  initHeader();
+
+  // Re-run on Astro page transitions
+  document.addEventListener('astro:after-swap', initHeader);
+</script>

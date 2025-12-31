@@ -4,27 +4,71 @@ import { SITE_TITLE, TWITTER_HANDLE, GITHUB_URL } from '../consts'
 const currentYear = new Date().getFullYear()
 ---
 
-<footer>
+<footer class="footer">
+  <!-- Gradient divider -->
+  <div class="footer-divider"></div>
+
   <div class="footer-content">
     <div class="footer-brand">
       <a href="/" class="footer-logo">
-        <img src="/logo-64.png" alt="SIP Protocol" class="logo-img" width="28" height="28" />
-        <span>{SITE_TITLE}</span>
+        <img
+          src="/logo-64.png"
+          alt="SIP Protocol"
+          class="logo-img"
+          width="28"
+          height="28"
+        />
+        <span class="logo-text">{SITE_TITLE}</span>
       </a>
       <p class="tagline">The privacy standard for Web3</p>
+
+      <!-- Social links in brand column -->
+      <div class="footer-social">
+        <a
+          href={`https://x.com/${TWITTER_HANDLE.replace('@', '')}`}
+          target="_blank"
+          rel="noopener"
+          aria-label="Follow SIP Protocol on X"
+          class="social-link"
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+            />
+          </svg>
+        </a>
+        <a
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener"
+          aria-label="SIP Protocol on GitHub"
+          class="social-link"
+        >
+          <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+        </a>
+      </div>
     </div>
 
     <div class="footer-links">
       <div class="link-group">
         <h4>Product</h4>
         <a href="https://sip-protocol.org">Website</a>
-        <a href="https://docs.sip-protocol.org">Documentation</a>
-        <a href={GITHUB_URL}>GitHub</a>
+        <a href="https://docs.sip-protocol.org" target="_blank" rel="noopener">
+          Documentation
+        </a>
+        <a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a>
       </div>
 
       <div class="link-group">
         <h4>Blog</h4>
         <a href="/blog">All Posts</a>
+        <a href="/tags">Tags</a>
         <a href="/rss.xml">RSS Feed</a>
         <a href="/llms.txt">llms.txt</a>
       </div>
@@ -36,7 +80,7 @@ const currentYear = new Date().getFullYear()
           target="_blank"
           rel="noopener"
         >
-          Twitter
+          X (Twitter)
         </a>
         <a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a>
       </div>
@@ -44,33 +88,52 @@ const currentYear = new Date().getFullYear()
   </div>
 
   <div class="footer-bottom">
-    <p>&copy; {currentYear} SIP Protocol. MIT License.</p>
+    <p class="copyright">&copy; {currentYear} SIP Protocol. MIT License.</p>
     <p class="built-with">
-      Built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>
+      Built with <a
+        href="https://astro.build"
+        target="_blank"
+        rel="noopener"
+        class="astro-link">Astro</a
+      >
     </p>
   </div>
 </footer>
 
 <style>
-  footer {
-    background: rgb(var(--gray-dark));
-    color: rgb(var(--gray-light));
-    padding: 3rem 1.5rem 2rem;
+  .footer {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
     margin-top: auto;
   }
 
-  .footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 3rem;
+  .footer-divider {
+    height: 2px;
+    background: var(--sip-gradient);
+    opacity: 0.5;
   }
 
+  .footer-content {
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-content {
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+    }
+  }
+
+  /* Brand */
   .footer-brand {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
 
   .footer-logo {
@@ -78,25 +141,61 @@ const currentYear = new Date().getFullYear()
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
-    color: white;
+    color: var(--text-primary);
     font-weight: 700;
     font-size: 1.125rem;
+    transition: color var(--transition-fast) ease;
+  }
+
+  .footer-logo:hover {
+    color: var(--sip-primary);
   }
 
   .logo-img {
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .tagline {
-    color: rgb(var(--gray));
+    color: var(--text-tertiary);
     font-size: 0.875rem;
     margin: 0;
   }
 
+  .footer-social {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast) ease;
+  }
+
+  .social-link:hover {
+    color: var(--sip-primary);
+    border-color: var(--sip-primary);
+    background: rgba(99, 102, 241, 0.1);
+  }
+
+  /* Links */
   .footer-links {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .footer-links {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .link-group {
@@ -106,64 +205,58 @@ const currentYear = new Date().getFullYear()
   }
 
   .link-group h4 {
-    color: white;
-    font-size: 0.875rem;
+    color: var(--text-primary);
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.25rem;
   }
 
   .link-group a {
-    color: rgb(var(--gray));
+    color: var(--text-tertiary);
     text-decoration: none;
     font-size: 0.875rem;
-    transition: color 0.2s ease;
+    transition: color var(--transition-fast) ease;
   }
 
   .link-group a:hover {
-    color: white;
+    color: var(--sip-primary);
   }
 
+  /* Bottom */
   .footer-bottom {
-    max-width: 1200px;
-    margin: 2rem auto 0;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-primary);
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    font-size: 0.875rem;
-    color: rgb(var(--gray));
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 640px) {
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: space-between;
+    }
   }
 
   .footer-bottom p {
     margin: 0;
+    color: var(--text-muted);
   }
 
-  .built-with a {
+  .astro-link {
     color: var(--sip-primary);
     text-decoration: none;
+    font-weight: 500;
   }
 
-  .built-with a:hover {
+  .astro-link:hover {
     text-decoration: underline;
-  }
-
-  @media (max-width: 768px) {
-    .footer-content {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .footer-links {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .footer-bottom {
-      flex-direction: column;
-      gap: 0.5rem;
-      text-align: center;
-    }
   }
 </style>

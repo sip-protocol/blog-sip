@@ -69,6 +69,8 @@ const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`
 <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> -->
 
 <!-- Font preloads -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
   rel="preload"
   href="/fonts/atkinson-regular.woff"
@@ -83,6 +85,16 @@ const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`
   type="font/woff"
   crossorigin
 />
+
+<!-- Theme initialization (prevents FOUC) -->
+<script is:inline>
+  (function() {
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+    document.documentElement.classList.add(theme);
+  })();
+</script>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={resolvedCanonical} />
