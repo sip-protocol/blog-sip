@@ -1,0 +1,17 @@
+name: sip-blog
+
+services:
+  blog:
+    image: ghcr.io/sip-protocol/blog-sip:latest
+    container_name: sip-blog
+    restart: unless-stopped
+    ports:
+      - "5004:80"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.docker.compose.project=sip-blog"
