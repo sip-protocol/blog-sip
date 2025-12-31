@@ -1,0 +1,115 @@
+---
+/**
+ * CodeBlock - Enhanced code block with copy functionality
+ * Astro's Shiki handles syntax highlighting, this adds copy button
+ */
+interface Props {
+  code: string
+  lang?: string
+  filename?: string
+}
+
+const { code, lang = 'text', filename } = Astro.props
+---
+
+<div class="code-block">
+  {filename && <div class="code-filename">{filename}</div>}
+  <div class="code-container">
+    <button class="copy-button" data-code={code} aria-label="Copy code">
+      <span class="copy-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      </span>
+      <span class="check-icon hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </span>
+    </button>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .code-block {
+    position: relative;
+    margin: 1.5rem 0;
+  }
+
+  .code-filename {
+    background: #1e1e1e;
+    color: #858585;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid #333;
+  }
+
+  .code-container {
+    position: relative;
+  }
+
+  .code-filename + .code-container :global(pre) {
+    border-radius: 0 0 8px 8px;
+    margin-top: 0;
+  }
+
+  .copy-button {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: #858585;
+    transition: all 0.2s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+
+  .copy-button.copied {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.2);
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.copy-button').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const code = button.getAttribute('data-code') || ''
+      const copyIcon = button.querySelector('.copy-icon')
+      const checkIcon = button.querySelector('.check-icon')
+
+      try {
+        await navigator.clipboard.writeText(code)
+        button.classList.add('copied')
+        copyIcon?.classList.add('hidden')
+        checkIcon?.classList.remove('hidden')
+
+        setTimeout(() => {
+          button.classList.remove('copied')
+          copyIcon?.classList.remove('hidden')
+          checkIcon?.classList.add('hidden')
+        }, 2000)
+      } catch (err) {
+        console.error('Failed to copy:', err)
+      }
+    })
+  })
+</script>

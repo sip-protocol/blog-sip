@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
+import CopyCodeButton from '../components/CopyCodeButton.astro'
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
 
 interface Props {
@@ -35,6 +36,7 @@ const {
       <slot />
     </main>
     <Footer />
+    <CopyCodeButton />
   </body>
 </html>
 

@@ -1,63 +1,245 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseLayout from '../layouts/BaseLayout.astro'
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
+<BaseLayout
+  title="About | SIP Protocol Blog"
+  description="Learn about SIP Protocol - the privacy standard for Web3"
 >
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+  <article class="about-page">
+    <header class="about-header">
+      <h1>About SIP Protocol</h1>
+      <p class="tagline">The Privacy Standard for Web3</p>
+    </header>
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+    <section class="mission">
+      <h2>Our Mission</h2>
+      <p>
+        SIP (Shielded Intents Protocol) is building the privacy layer for Web3 — like HTTPS for the
+        internet. One toggle to shield sender, amount, and recipient using stealth addresses,
+        Pedersen commitments, and viewing keys for compliance.
+      </p>
+      <p>
+        We believe privacy is a fundamental right, not a feature. That's why we're creating
+        middleware that sits between applications and blockchains, making any transaction private
+        while maintaining compliance capabilities for institutions that need them.
+      </p>
+    </section>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+    <section class="technology">
+      <h2>The Technology</h2>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <h3>Stealth Addresses</h3>
+          <p>One-time recipient addresses that prevent transaction linkability and protect recipient privacy.</p>
+        </div>
+        <div class="tech-item">
+          <h3>Pedersen Commitments</h3>
+          <p>Cryptographic commitments that hide transaction amounts while enabling verification.</p>
+        </div>
+        <div class="tech-item">
+          <h3>Viewing Keys</h3>
+          <p>Selective disclosure for compliance — share transaction details with auditors without exposing everything.</p>
+        </div>
+        <div class="tech-item">
+          <h3>Chain Agnostic</h3>
+          <p>Works across Solana, Ethereum, NEAR, and more. One privacy layer, settle anywhere.</p>
+        </div>
+      </div>
+    </section>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+    <section class="blog-about">
+      <h2>About This Blog</h2>
+      <p>
+        This blog is where we share technical deep-dives, ecosystem updates, tutorials, and our
+        vision for privacy in Web3. Whether you're a developer looking to integrate SIP, or someone
+        interested in blockchain privacy, you'll find valuable content here.
+      </p>
+      <div class="categories">
+        <h3>What We Write About</h3>
+        <ul>
+          <li><a href="/category/technical/">Technical</a> — Architecture, specs, implementation details</li>
+          <li><a href="/category/tutorials/">Tutorials</a> — Step-by-step guides and code examples</li>
+          <li><a href="/category/ecosystem/">Ecosystem</a> — Partnerships and integrations</li>
+          <li><a href="/category/thought-leadership/">Thought Leadership</a> — Privacy philosophy and trends</li>
+          <li><a href="/category/announcements/">Announcements</a> — Releases and news</li>
+        </ul>
+      </div>
+    </section>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+    <section class="links">
+      <h2>Learn More</h2>
+      <div class="link-grid">
+        <a href="https://sip-protocol.org" class="link-card" target="_blank" rel="noopener">
+          <span class="link-icon">🌐</span>
+          <span class="link-title">Website</span>
+          <span class="link-desc">sip-protocol.org</span>
+        </a>
+        <a href="https://docs.sip-protocol.org" class="link-card" target="_blank" rel="noopener">
+          <span class="link-icon">📚</span>
+          <span class="link-title">Documentation</span>
+          <span class="link-desc">docs.sip-protocol.org</span>
+        </a>
+        <a href="https://github.com/sip-protocol" class="link-card" target="_blank" rel="noopener">
+          <span class="link-icon">💻</span>
+          <span class="link-title">GitHub</span>
+          <span class="link-desc">github.com/sip-protocol</span>
+        </a>
+        <a href="https://twitter.com/sipprotocol" class="link-card" target="_blank" rel="noopener">
+          <span class="link-icon">𝕏</span>
+          <span class="link-title">Twitter/X</span>
+          <span class="link-desc">@sipprotocol</span>
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .about-header {
+    text-align: center;
+    padding: 2rem 0 3rem;
+  }
+
+  .about-header h1 {
+    font-size: 2.5rem;
+    margin: 0 0 0.75rem;
+    background: linear-gradient(135deg, var(--sip-primary), var(--sip-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+    color: rgb(var(--gray));
+    margin: 0;
+  }
+
+  section {
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+    color: rgb(var(--black));
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    margin: 0 0 0.5rem;
+    color: rgb(var(--black));
+  }
+
+  p {
+    color: rgb(var(--gray-dark));
+    line-height: 1.8;
+    margin: 0 0 1rem;
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .tech-item {
+    background: rgba(99, 102, 241, 0.05);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .tech-item h3 {
+    color: var(--sip-primary);
+  }
+
+  .tech-item p {
+    font-size: 0.9375rem;
+    margin: 0;
+    color: rgb(var(--gray));
+  }
+
+  .categories ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .categories li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgb(var(--gray-light));
+    color: rgb(var(--gray-dark));
+    font-size: 0.9375rem;
+  }
+
+  .categories li:last-child {
+    border-bottom: none;
+  }
+
+  .categories a {
+    color: var(--sip-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .categories a:hover {
+    text-decoration: underline;
+  }
+
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .link-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid rgb(var(--gray-light));
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .link-card:hover {
+    border-color: var(--sip-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  }
+
+  .link-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .link-title {
+    font-weight: 600;
+    color: rgb(var(--black));
+    margin-bottom: 0.25rem;
+  }
+
+  .link-desc {
+    font-size: 0.875rem;
+    color: rgb(var(--gray));
+  }
+
+  @media (max-width: 768px) {
+    .about-header h1 {
+      font-size: 2rem;
+    }
+
+    .tech-grid,
+    .link-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

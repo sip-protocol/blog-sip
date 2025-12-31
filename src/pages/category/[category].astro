@@ -1,0 +1,184 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostCard from '../../components/PostCard.astro'
+
+// Define valid categories
+const categories = [
+  'technical',
+  'ecosystem',
+  'thought-leadership',
+  'tutorials',
+  'announcements',
+] as const
+
+type Category = (typeof categories)[number]
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true
+  })
+
+  // Get unique categories from posts
+  const uniqueCategories = [...new Set(posts.map((post) => post.data.category))]
+
+  return uniqueCategories.map((category) => ({
+    params: { category },
+    props: {
+      category,
+      posts: posts
+        .filter((post) => post.data.category === category)
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }))
+}
+
+interface Props {
+  category: Category
+  posts: Awaited<ReturnType<typeof getCollection<'blog'>>>
+}
+
+const { category, posts } = Astro.props
+
+// Category display names and descriptions
+const categoryInfo: Record<Category, { title: string; description: string }> = {
+  technical: {
+    title: 'Technical Deep-Dives',
+    description: 'Architecture, specifications, and implementation details of SIP Protocol',
+  },
+  ecosystem: {
+    title: 'Ecosystem Updates',
+    description: 'Partnerships, integrations, and ecosystem growth',
+  },
+  'thought-leadership': {
+    title: 'Thought Leadership',
+    description: 'Privacy philosophy, industry trends, and vision',
+  },
+  tutorials: {
+    title: 'Tutorials & Guides',
+    description: 'Step-by-step guides and code examples',
+  },
+  announcements: {
+    title: 'Announcements',
+    description: 'Releases, milestones, and news',
+  },
+}
+
+const info = categoryInfo[category]
+---
+
+<BaseLayout
+  title={`${info.title} | SIP Protocol Blog`}
+  description={info.description}
+>
+  <section class="category-header">
+    <span class="category-badge">{category}</span>
+    <h1>{info.title}</h1>
+    <p class="category-description">{info.description}</p>
+    <p class="post-count">{posts.length} article{posts.length !== 1 ? 's' : ''}</p>
+  </section>
+
+  <section class="posts">
+    {
+      posts.length > 0 ? (
+        <div class="post-grid">
+          {posts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              heroImage={post.data.heroImage}
+              slug={post.id}
+              category={post.data.category}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="empty">No posts in this category yet.</p>
+      )
+    }
+  </section>
+
+  <a href="/" class="back-link">&larr; Back to all posts</a>
+</BaseLayout>
+
+<style>
+  .category-header {
+    text-align: center;
+    padding: 2rem 0 3rem;
+  }
+
+  .category-badge {
+    display: inline-block;
+    background: linear-gradient(
+      135deg,
+      var(--sip-primary),
+      var(--sip-accent)
+    );
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0 0 0.75rem;
+    color: rgb(var(--black));
+  }
+
+  .category-description {
+    font-size: 1.125rem;
+    color: rgb(var(--gray));
+    max-width: 600px;
+    margin: 0 auto 0.5rem;
+    line-height: 1.6;
+  }
+
+  .post-count {
+    font-size: 0.875rem;
+    color: rgb(var(--gray));
+  }
+
+  .posts {
+    margin-bottom: 3rem;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 4rem 0;
+    color: rgb(var(--gray));
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--sip-primary);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--sip-primary-dark);
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .post-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

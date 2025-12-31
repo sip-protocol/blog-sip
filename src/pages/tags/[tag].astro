@@ -1,0 +1,127 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostCard from '../../components/PostCard.astro'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true
+  })
+
+  // Get all unique tags
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags))]
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((post) => post.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }))
+}
+
+interface Props {
+  tag: string
+  posts: Awaited<ReturnType<typeof getCollection<'blog'>>>
+}
+
+const { tag, posts } = Astro.props
+---
+
+<BaseLayout
+  title={`#${tag} | SIP Protocol Blog`}
+  description={`Posts tagged with #${tag}`}
+>
+  <section class="tag-header">
+    <h1>
+      <span class="hash">#</span>{tag}
+    </h1>
+    <p class="post-count">{posts.length} article{posts.length !== 1 ? 's' : ''}</p>
+  </section>
+
+  <section class="posts">
+    {
+      posts.length > 0 ? (
+        <div class="post-grid">
+          {posts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              heroImage={post.data.heroImage}
+              slug={post.id}
+              category={post.data.category}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="empty">No posts with this tag yet.</p>
+      )
+    }
+  </section>
+
+  <a href="/" class="back-link">&larr; Back to all posts</a>
+</BaseLayout>
+
+<style>
+  .tag-header {
+    text-align: center;
+    padding: 2rem 0 3rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem;
+    color: rgb(var(--black));
+  }
+
+  .hash {
+    color: var(--sip-primary);
+  }
+
+  .post-count {
+    font-size: 0.875rem;
+    color: rgb(var(--gray));
+  }
+
+  .posts {
+    margin-bottom: 3rem;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 4rem 0;
+    color: rgb(var(--gray));
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--sip-primary);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--sip-primary-dark);
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .post-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

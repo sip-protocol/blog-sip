@@ -1,0 +1,99 @@
+---
+/**
+ * TableOfContents - Auto-generated from headings
+ * Displays h2/h3 hierarchy with smooth scroll links
+ */
+interface Heading {
+  depth: number
+  slug: string
+  text: string
+}
+
+interface Props {
+  headings: Heading[]
+  title?: string
+}
+
+const { headings, title = 'Table of Contents' } = Astro.props
+
+// Filter to only h2 and h3
+const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3)
+---
+
+{
+  tocHeadings.length > 0 && (
+    <nav class="toc" aria-label="Table of contents">
+      <h2 class="toc-title">{title}</h2>
+      <ul class="toc-list">
+        {tocHeadings.map((heading) => (
+          <li class:list={['toc-item', `depth-${heading.depth}`]}>
+            <a href={`#${heading.slug}`} class="toc-link">
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .toc {
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .toc-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--sip-primary);
+    margin: 0 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .toc-item {
+    margin: 0.25rem 0;
+  }
+
+  .toc-item.depth-3 {
+    padding-left: 1rem;
+  }
+
+  .toc-link {
+    color: rgb(var(--gray-dark));
+    text-decoration: none;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    transition: color 0.2s ease;
+    display: block;
+  }
+
+  .toc-link:hover {
+    color: var(--sip-primary);
+  }
+
+  .depth-3 .toc-link {
+    font-size: 0.875rem;
+    color: rgb(var(--gray));
+  }
+
+  .depth-3 .toc-link:hover {
+    color: var(--sip-primary);
+  }
+
+  @media (max-width: 768px) {
+    .toc {
+      padding: 1rem;
+    }
+  }
+</style>
