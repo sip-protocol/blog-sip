@@ -1,0 +1,103 @@
+---
+/**
+ * TLDRBox - Summary component for LLMO (LLM Optimization)
+ *
+ * Provides a structured, extractable summary that AI systems can easily parse.
+ * Uses semantic HTML and ARIA for accessibility.
+ */
+interface Props {
+  tldr: string
+  keyTakeaways?: string[]
+}
+
+const { tldr, keyTakeaways = [] } = Astro.props
+---
+
+<aside
+  class="tldr-box"
+  role="note"
+  aria-label="Summary"
+  data-llmo="summary"
+>
+  <div class="tldr-header">
+    <span class="tldr-icon" aria-hidden="true">💡</span>
+    <strong class="tldr-title">TL;DR</strong>
+  </div>
+
+  <p class="tldr-content" data-llmo="tldr">
+    {tldr}
+  </p>
+
+  {
+    keyTakeaways.length > 0 && (
+      <div class="tldr-takeaways">
+        <strong class="takeaways-title">Key Takeaways:</strong>
+        <ul class="takeaways-list" data-llmo="key-takeaways">
+          {keyTakeaways.map((takeaway) => (
+            <li>{takeaway}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</aside>
+
+<style>
+  .tldr-box {
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.1),
+      rgba(139, 92, 246, 0.1)
+    );
+    border-left: 4px solid var(--sip-primary, #6366f1);
+    border-radius: 0 8px 8px 0;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .tldr-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tldr-icon {
+    font-size: 1.25rem;
+  }
+
+  .tldr-title {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sip-primary, #6366f1);
+  }
+
+  .tldr-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+    color: rgb(var(--gray-dark, 34, 41, 57));
+  }
+
+  .tldr-takeaways {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  .takeaways-title {
+    font-size: 0.875rem;
+    color: var(--sip-primary, #6366f1);
+  }
+
+  .takeaways-list {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .takeaways-list li {
+    margin: 0.25rem 0;
+    line-height: 1.5;
+  }
+</style>

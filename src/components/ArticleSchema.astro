@@ -1,0 +1,58 @@
+---
+import { ORGANIZATION, SITE_URL } from '../consts'
+
+interface Props {
+  title: string
+  description: string
+  publishedTime: Date
+  modifiedTime?: Date
+  author?: string
+  image?: string
+  url: string
+  tags?: string[]
+}
+
+const {
+  title,
+  description,
+  publishedTime,
+  modifiedTime,
+  author = 'SIP Protocol Team',
+  image,
+  url,
+  tags = [],
+} = Astro.props
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: description,
+  image: image ? [image] : undefined,
+  datePublished: publishedTime.toISOString(),
+  dateModified: modifiedTime?.toISOString() || publishedTime.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: ORGANIZATION.name,
+    url: ORGANIZATION.url,
+    logo: {
+      '@type': 'ImageObject',
+      url: ORGANIZATION.logo,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': url,
+  },
+  keywords: tags.join(', '),
+}
+---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(schema, null, 2)}
+/>

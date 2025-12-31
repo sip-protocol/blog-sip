@@ -1,5 +1,24 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
+// Site-wide constants
+export const SITE_TITLE = 'SIP Protocol Blog'
+export const SITE_DESCRIPTION =
+  'Technical deep-dives, ecosystem updates, and privacy thought leadership for the Web3 privacy standard.'
+export const SITE_URL = 'https://blog.sip-protocol.org'
 
-export const SITE_TITLE = 'Astro Blog';
-export const SITE_DESCRIPTION = 'Welcome to my website!';
+// Social
+export const TWITTER_HANDLE = '@sipprotocol'
+export const GITHUB_URL = 'https://github.com/sip-protocol'
+
+// SEO
+export const DEFAULT_OG_IMAGE = '/og-default.png'
+export const AUTHOR_DEFAULT = 'SIP Protocol Team'
+
+// Organization (for JSON-LD)
+export const ORGANIZATION = {
+  name: 'SIP Protocol',
+  url: 'https://sip-protocol.org',
+  logo: 'https://sip-protocol.org/logo.png',
+  sameAs: [
+    'https://twitter.com/sipprotocol',
+    'https://github.com/sip-protocol',
+  ],
+}
