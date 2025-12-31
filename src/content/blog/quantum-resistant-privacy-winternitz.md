@@ -4,7 +4,7 @@ description: 'How SIP Protocol is preparing for the post-quantum era with Winter
 pubDate: 'Jan 12 2025'
 category: 'technical'
 tags: ['quantum', 'winternitz', 'cryptography', 'security', 'post-quantum']
-draft: true
+draft: false
 author: 'SIP Protocol Team'
 tldr: 'Current blockchain cryptography will break when quantum computers arrive. SIP is integrating Winternitz One-Time Signatures (WOTS) for quantum-resistant key management, protecting viewing keys and stealth address generation.'
 keyTakeaways:

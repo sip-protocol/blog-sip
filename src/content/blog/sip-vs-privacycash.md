@@ -4,7 +4,7 @@ description: 'A technical comparison of SIP Protocol and Tornado Cash clones - w
 pubDate: 'Jan 05 2025'
 category: 'technical'
 tags: ['privacy', 'pedersen-commitments', 'tornado-cash', 'cryptography', 'comparison']
-draft: true
+draft: false
 author: 'SIP Protocol Team'
 tldr: 'Pool mixing (Tornado Cash style) has fundamental limitations: fixed denominations, statistical attacks, and no compliance path. SIP uses Pedersen commitments for any-amount privacy with viewing keys for compliance.'
 keyTakeaways:
