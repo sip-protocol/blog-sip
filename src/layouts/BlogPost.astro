@@ -14,6 +14,7 @@ import TableOfContents from '../components/TableOfContents.astro'
 import BackToTop from '../components/BackToTop.astro'
 import ShareButtons from '../components/ShareButtons.astro'
 import RelatedPosts from '../components/RelatedPosts.astro'
+import Toast from '../components/Toast.astro'
 import { SITE_URL } from '../consts'
 
 interface NavPost {
@@ -141,6 +142,7 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
     <Footer />
     <CopyCodeButton />
     <BackToTop />
+    <Toast />
   </body>
 </html>
 

@@ -102,6 +102,11 @@ const languageLabels: Record<string, string> = {
           copyText.textContent = 'Copied!'
           button.classList.add('copied')
 
+          // Show toast notification
+          if (window.showToast) {
+            window.showToast('Code copied to clipboard!', 'success')
+          }
+
           setTimeout(() => {
             copyIcon.style.display = 'block'
             checkIcon.style.display = 'none'
@@ -110,6 +115,9 @@ const languageLabels: Record<string, string> = {
           }, 2000)
         } catch (err) {
           console.error('Failed to copy:', err)
+          if (window.showToast) {
+            window.showToast('Failed to copy code', 'error')
+          }
         }
       })
 

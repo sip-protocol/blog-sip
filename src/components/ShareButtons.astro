@@ -79,6 +79,11 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
             btnText.textContent = 'Copied!'
             copyBtn.classList.add('copied')
 
+            // Show toast notification
+            if (window.showToast) {
+              window.showToast('Link copied to clipboard!', 'success')
+            }
+
             setTimeout(() => {
               iconLink.style.display = 'block'
               iconCheck.style.display = 'none'
@@ -87,6 +92,9 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
             }, 2000)
           } catch (err) {
             console.error('Failed to copy:', err)
+            if (window.showToast) {
+              window.showToast('Failed to copy link', 'error')
+            }
           }
         })
       }

@@ -1,0 +1,206 @@
+---
+/**
+ * Toast - Animated notification system for user feedback
+ * Usage: window.showToast('Message', 'success' | 'error' | 'info')
+ * Auto-dismisses after duration (3s default, 5s for errors)
+ */
+---
+
+<div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<template id="toast-template">
+  <div class="toast" role="alert">
+    <span class="toast-icon"></span>
+    <span class="toast-message"></span>
+    <button class="toast-close" aria-label="Dismiss">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+</template>
+
+<style is:global>
+  #toast-container {
+    position: fixed;
+    top: 5rem;
+    right: 1rem;
+    z-index: var(--z-toast, 9999);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    pointer-events: none;
+  }
+
+  .toast {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    pointer-events: auto;
+    min-width: 280px;
+    max-width: 400px;
+    animation: toast-slide-in 0.3s ease forwards;
+  }
+
+  .toast.removing {
+    animation: toast-slide-out 0.3s ease forwards;
+  }
+
+  @keyframes toast-slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes toast-slide-out {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toast {
+      animation: none;
+      opacity: 1;
+    }
+    .toast.removing {
+      animation: none;
+    }
+  }
+
+  .toast-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toast-message {
+    flex: 1;
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .toast-close {
+    flex-shrink: 0;
+    padding: 0.25rem;
+    background: transparent;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast) ease;
+  }
+
+  .toast-close:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
+
+  /* Success variant */
+  .toast-success {
+    border-left: 4px solid var(--color-success, #10b981);
+  }
+
+  .toast-success .toast-icon {
+    color: var(--color-success, #10b981);
+  }
+
+  /* Error variant */
+  .toast-error {
+    border-left: 4px solid var(--color-error, #ef4444);
+  }
+
+  .toast-error .toast-icon {
+    color: var(--color-error, #ef4444);
+  }
+
+  /* Info variant */
+  .toast-info {
+    border-left: 4px solid var(--color-info, #3b82f6);
+  }
+
+  .toast-info .toast-icon {
+    color: var(--color-info, #3b82f6);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    #toast-container {
+      left: 1rem;
+      right: 1rem;
+    }
+
+    .toast {
+      min-width: auto;
+      max-width: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  const icons = {
+    success: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+    error: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>',
+    info: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+  }
+
+  const durations = {
+    success: 3000,
+    error: 5000,
+    info: 3000
+  }
+
+  function showToast(message, type) {
+    type = type || 'success'
+    const container = document.getElementById('toast-container')
+    const template = document.getElementById('toast-template')
+
+    if (!container || !template) return
+
+    const clone = template.content.cloneNode(true)
+    const toast = clone.querySelector('.toast')
+    const iconEl = clone.querySelector('.toast-icon')
+    const messageEl = clone.querySelector('.toast-message')
+    const closeBtn = clone.querySelector('.toast-close')
+
+    toast.classList.add('toast-' + type)
+    iconEl.innerHTML = icons[type] || icons.info
+    messageEl.textContent = message
+
+    const removeToast = function() {
+      toast.classList.add('removing')
+      setTimeout(function() {
+        toast.remove()
+      }, 300)
+    }
+
+    closeBtn.addEventListener('click', removeToast)
+
+    container.appendChild(clone)
+
+    setTimeout(removeToast, durations[type] || 3000)
+  }
+
+  // Expose globally
+  window.showToast = showToast
+</script>
