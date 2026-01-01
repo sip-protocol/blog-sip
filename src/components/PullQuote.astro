@@ -1,0 +1,177 @@
+---
+/**
+ * PullQuote - Large, styled quote for highlighting key statements
+ * Usage in MDX:
+ *   import PullQuote from '../components/PullQuote.astro'
+ *   <PullQuote author="Satoshi Nakamoto" source="Bitcoin Whitepaper">
+ *     Privacy is necessary for an open society in the electronic age.
+ *   </PullQuote>
+ */
+interface Props {
+  author?: string
+  source?: string
+  centered?: boolean
+}
+
+const { author, source, centered = true } = Astro.props
+---
+
+<figure class:list={['pull-quote', { centered }]}>
+  <div class="quote-decoration open">"</div>
+  <blockquote>
+    <slot />
+  </blockquote>
+  <div class="quote-decoration close">"</div>
+  {
+    (author || source) && (
+      <figcaption>
+        {author && <cite class="author">{author}</cite>}
+        {source && <span class="source">{source}</span>}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .pull-quote {
+    position: relative;
+    margin: 3rem 0;
+    padding: 2rem 0;
+  }
+
+  .pull-quote.centered {
+    text-align: center;
+  }
+
+  .pull-quote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--sip-gradient);
+    border-radius: 2px;
+  }
+
+  .pull-quote::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--sip-gradient);
+    border-radius: 2px;
+  }
+
+  .quote-decoration {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 4rem;
+    line-height: 1;
+    background: var(--sip-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.6;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .quote-decoration.open {
+    margin-bottom: -1rem;
+  }
+
+  .quote-decoration.close {
+    margin-top: -1.5rem;
+    transform: rotate(180deg);
+  }
+
+  .centered .quote-decoration {
+    display: block;
+  }
+
+  .pull-quote:not(.centered) .quote-decoration.open {
+    position: absolute;
+    top: 1.5rem;
+    left: -0.5rem;
+  }
+
+  .pull-quote:not(.centered) .quote-decoration.close {
+    display: none;
+  }
+
+  blockquote {
+    /* Reset default blockquote styles */
+    all: unset;
+    display: block;
+    font-size: 1.375rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-style: italic;
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 0.5rem 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    blockquote {
+      font-size: 1.5rem;
+    }
+  }
+
+  blockquote :global(p) {
+    margin: 0;
+  }
+
+  blockquote :global(p + p) {
+    margin-top: 0.75rem;
+  }
+
+  figcaption {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .pull-quote:not(.centered) figcaption {
+    align-items: flex-start;
+    padding-left: 1.5rem;
+  }
+
+  .author {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-style: normal;
+  }
+
+  .author::before {
+    content: '— ';
+    color: var(--sip-primary);
+  }
+
+  .source {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+    font-style: italic;
+  }
+
+  /* Dark mode adjustments */
+  :global(.dark) .quote-decoration {
+    opacity: 0.4;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .pull-quote::before,
+    .pull-quote::after {
+      transition: none;
+    }
+  }
+</style>
