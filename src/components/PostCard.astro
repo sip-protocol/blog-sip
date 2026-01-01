@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets'
 import type { ImageMetadata } from 'astro'
 import FormattedDate from './FormattedDate.astro'
+import { getCategoryStyle } from '../utils/category-colors'
 
 interface Props {
   title: string
@@ -28,6 +29,7 @@ const {
 } = Astro.props
 
 const href = `/blog/${slug}/`
+const categoryStyle = category ? getCategoryStyle(category) : null
 ---
 
 <article class:list={['post-card', { featured }]}>
@@ -48,7 +50,9 @@ const href = `/blog/${slug}/`
 
   <div class="card-content">
     <div class="card-meta">
-      {category && <span class="category">{category}</span>}
+      {category && categoryStyle && (
+        <span class="category" style={`background: ${categoryStyle.gradient}`}>{category}</span>
+      )}
       <FormattedDate date={pubDate} />
       {
         readingTime && (
@@ -166,7 +170,6 @@ const href = `/blog/${slug}/`
   }
 
   .category {
-    background: var(--sip-gradient);
     color: white;
     padding: 0.25rem 0.625rem;
     border-radius: var(--radius-sm);

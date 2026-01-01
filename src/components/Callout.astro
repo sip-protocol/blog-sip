@@ -3,7 +3,7 @@
  * Callout - Highlighted content blocks for tips, warnings, and info
  */
 interface Props {
-  type?: 'info' | 'warning' | 'tip' | 'danger'
+  type?: 'info' | 'warning' | 'tip' | 'danger' | 'note'
   title?: string
 }
 
@@ -14,6 +14,7 @@ const defaultTitles = {
   warning: 'Warning',
   tip: 'Tip',
   danger: 'Danger',
+  note: 'Note',
 }
 ---
 
@@ -45,6 +46,12 @@ const defaultTitles = {
         <circle cx="12" cy="12" r="10"></circle>
         <path d="m15 9-6 6"></path>
         <path d="m9 9 6 6"></path>
+      </svg>
+    )}
+    {type === 'note' && (
+      <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h9"></path>
+        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
       </svg>
     )}
     <strong class="callout-title">{title || defaultTitles[type]}</strong>
@@ -144,5 +151,17 @@ const defaultTitles = {
   .callout-danger .callout-icon,
   .callout-danger .callout-title {
     color: var(--color-error);
+  }
+
+  /* Note - Purple */
+  .callout-note {
+    background: rgba(139, 92, 246, 0.08);
+    border-color: rgba(139, 92, 246, 0.2);
+    border-left-color: #8b5cf6;
+  }
+
+  .callout-note .callout-icon,
+  .callout-note .callout-title {
+    color: #8b5cf6;
   }
 </style>

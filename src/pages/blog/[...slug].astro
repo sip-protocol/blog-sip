@@ -39,8 +39,12 @@ interface Props {
 
 const { post, prevPost, nextPost } = Astro.props
 const { Content, headings } = await render(post)
+
+// Calculate reading time from body content
+const wordCount = post.body?.split(/\s+/).length || 0
+const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 ---
 
-<BlogPost {...post.data} slug={post.id} prevPost={prevPost} nextPost={nextPost} headings={headings}>
+<BlogPost {...post.data} slug={post.id} prevPost={prevPost} nextPost={nextPost} headings={headings} readingTime={readingTime}>
   <Content />
 </BlogPost>

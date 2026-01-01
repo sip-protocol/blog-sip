@@ -1,8 +1,9 @@
 ---
-import { getCollection } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import PostCard from '../components/PostCard.astro'
 import { SITE_DESCRIPTION } from '../consts'
+import { getReadingTime } from '../utils/reading-time'
 
 // Get all non-draft posts, sorted by date
 const posts = (
@@ -11,9 +12,20 @@ const posts = (
   })
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 
+// Calculate reading time for each post
+const postsWithReadingTime = await Promise.all(
+  posts.map(async (post) => {
+    const { remarkPluginFrontmatter } = await render(post)
+    // Use body length estimate if no raw content available
+    const wordCount = post.body?.split(/\s+/).length || 0
+    const readingTime = Math.max(1, Math.ceil(wordCount / 200))
+    return { ...post, readingTime }
+  })
+)
+
 // Get featured post (first featured or most recent)
-const featuredPost = posts.find((p) => p.data.featured) || posts[0]
-const remainingPosts = posts.filter((p) => p.id !== featuredPost?.id)
+const featuredPost = postsWithReadingTime.find((p) => p.data.featured) || postsWithReadingTime[0]
+const remainingPosts = postsWithReadingTime.filter((p) => p.id !== featuredPost?.id)
 ---
 
 <BaseLayout>
@@ -35,6 +47,7 @@ const remainingPosts = posts.filter((p) => p.id !== featuredPost?.id)
           category={featuredPost.data.category}
           tags={featuredPost.data.tags}
           featured={true}
+          readingTime={featuredPost.readingTime}
         />
       </section>
     )
@@ -53,6 +66,7 @@ const remainingPosts = posts.filter((p) => p.id !== featuredPost?.id)
             slug={post.id}
             category={post.data.category}
             tags={post.data.tags}
+            readingTime={post.readingTime}
           />
         ))
       }

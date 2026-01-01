@@ -12,6 +12,7 @@ import ReadingProgress from '../components/ReadingProgress.astro'
 import PostNavigation from '../components/PostNavigation.astro'
 import TableOfContents from '../components/TableOfContents.astro'
 import { SITE_URL } from '../consts'
+import { getCategoryStyle } from '../utils/category-colors'
 
 interface NavPost {
   slug: string
@@ -29,6 +30,7 @@ type Props = CollectionEntry<'blog'>['data'] & {
   prevPost?: NavPost
   nextPost?: NavPost
   headings?: Heading[]
+  readingTime?: number
 }
 
 const {
@@ -48,12 +50,14 @@ const {
   prevPost,
   nextPost,
   headings = [],
+  readingTime,
 } = Astro.props
 
 const articleUrl = `${SITE_URL}/blog/${slug}/`
 // Use hero image if available, otherwise use generated OG image
 const ogImageUrl = `${SITE_URL}/og/${slug}.png`
 const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogImageUrl
+const categoryStyle = category ? getCategoryStyle(category) : null
 ---
 
 <!doctype html>
@@ -108,7 +112,9 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
         <div class="article-container">
           <header class="article-header">
             <div class="article-meta">
-              {category && <span class="category">{category}</span>}
+              {category && categoryStyle && (
+                <span class="category" style={`background: ${categoryStyle.gradient}`}>{category}</span>
+              )}
               <time datetime={pubDate.toISOString()} itemprop="datePublished">
                 <FormattedDate date={pubDate} />
               </time>
@@ -123,6 +129,27 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
                       <FormattedDate date={updatedDate} />
                     </time>
                     )
+                  </span>
+                )
+              }
+              {
+                readingTime && (
+                  <span class="reading-time">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    {readingTime} min read
                   </span>
                 )
               }
@@ -234,7 +261,6 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
   }
 
   .category {
-    background: var(--sip-gradient);
     color: white;
     padding: 0.25rem 0.75rem;
     border-radius: var(--radius-sm);
@@ -247,6 +273,16 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
   .updated {
     font-style: italic;
     color: var(--text-muted);
+  }
+
+  .reading-time {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .reading-time svg {
+    opacity: 0.7;
   }
 
   h1 {
