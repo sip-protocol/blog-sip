@@ -14,6 +14,7 @@ import TableOfContents from '../components/TableOfContents.astro'
 import BackToTop from '../components/BackToTop.astro'
 import ShareButtons from '../components/ShareButtons.astro'
 import RelatedPosts from '../components/RelatedPosts.astro'
+import NewsletterCTA from '../components/NewsletterCTA.astro'
 import Toast from '../components/Toast.astro'
 import { SITE_URL } from '../consts'
 
@@ -132,6 +133,8 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
           </div>
 
           <ShareButtons title={title} url={articleUrl} description={description} />
+
+          <NewsletterCTA compact />
 
           <RelatedPosts currentSlug={slug} currentTags={tags} currentCategory={category} />
 

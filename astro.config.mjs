@@ -7,9 +7,14 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
+import node from '@astrojs/node'
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://blog.sip-protocol.org',
+  adapter: node({
+    mode: 'standalone',
+  }),
 
   integrations: [
     mdx({
