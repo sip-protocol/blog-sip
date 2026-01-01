@@ -4,8 +4,8 @@ import type { CollectionEntry } from 'astro:content'
 import BaseHead from '../components/BaseHead.astro'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
-import FormattedDate from '../components/FormattedDate.astro'
 import ArticleSchema from '../components/ArticleSchema.astro'
+import ArticleHero from '../components/ArticleHero.astro'
 import TLDRBox from '../components/TLDRBox.astro'
 import CopyCodeButton from '../components/CopyCodeButton.astro'
 import ReadingProgress from '../components/ReadingProgress.astro'
@@ -15,7 +15,6 @@ import BackToTop from '../components/BackToTop.astro'
 import ShareButtons from '../components/ShareButtons.astro'
 import RelatedPosts from '../components/RelatedPosts.astro'
 import { SITE_URL } from '../consts'
-import { getCategoryStyle } from '../utils/category-colors'
 
 interface NavPost {
   slug: string
@@ -60,7 +59,6 @@ const articleUrl = `${SITE_URL}/blog/${slug}/`
 // Use hero image if available, otherwise use generated OG image
 const ogImageUrl = `${SITE_URL}/og/${slug}.png`
 const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogImageUrl
-const categoryStyle = category ? getCategoryStyle(category) : null
 ---
 
 <!doctype html>
@@ -112,75 +110,18 @@ const categoryStyle = category ? getCategoryStyle(category) : null
           )
         }
 
+        <ArticleHero
+          title={title}
+          description={description}
+          pubDate={pubDate}
+          updatedDate={updatedDate}
+          author={author}
+          tags={tags}
+          category={category}
+          readingTime={readingTime}
+        />
+
         <div class="article-container">
-          <header class="article-header">
-            <div class="article-meta">
-              {category && categoryStyle && (
-                <span class="category" style={`background: ${categoryStyle.gradient}`}>{category}</span>
-              )}
-              <time datetime={pubDate.toISOString()} itemprop="datePublished">
-                <FormattedDate date={pubDate} />
-              </time>
-              {
-                updatedDate && (
-                  <span class="updated">
-                    (Updated:{' '}
-                    <time
-                      datetime={updatedDate.toISOString()}
-                      itemprop="dateModified"
-                    >
-                      <FormattedDate date={updatedDate} />
-                    </time>
-                    )
-                  </span>
-                )
-              }
-              {
-                readingTime && (
-                  <span class="reading-time">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <polyline points="12 6 12 12 16 14" />
-                    </svg>
-                    {readingTime} min read
-                  </span>
-                )
-              }
-            </div>
-
-            <h1 itemprop="headline">{title}</h1>
-
-            {
-              author && (
-                <div class="author" itemprop="author" itemscope itemtype="https://schema.org/Person">
-                  <span itemprop="name">{author}</span>
-                </div>
-              )
-            }
-
-            {
-              tags && tags.length > 0 && (
-                <div class="tags">
-                  {tags.map((tag) => (
-                    <a href={`/tags/${tag}/`} class="tag">
-                      #{tag}
-                    </a>
-                  ))}
-                </div>
-              )
-            }
-          </header>
-
           {tldr && <TLDRBox tldr={tldr} keyTakeaways={keyTakeaways} />}
 
           <TableOfContents headings={headings} />
@@ -249,84 +190,7 @@ const categoryStyle = category ? getCategoryStyle(category) : null
   .article-container {
     max-width: 48rem;
     margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-  }
-
-  .article-header {
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  .article-meta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-    color: var(--text-tertiary);
-  }
-
-  .category {
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .updated {
-    font-style: italic;
-    color: var(--text-muted);
-  }
-
-  .reading-time {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-
-  .reading-time svg {
-    opacity: 0.7;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    line-height: 1.2;
-    margin: 0 0 1rem;
-    color: var(--text-primary);
-    letter-spacing: -0.03em;
-  }
-
-  .author {
-    font-size: 0.9375rem;
-    color: var(--text-tertiary);
-    margin-bottom: 1rem;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    font-size: 0.75rem;
-    color: var(--sip-primary);
-    background: rgba(99, 102, 241, 0.1);
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-sm);
-    text-decoration: none;
-    transition: all var(--transition-fast) ease;
-  }
-
-  .tag:hover {
-    background: var(--sip-primary);
-    color: white;
+    padding: 0 1.5rem 4rem;
   }
 
   .prose {
@@ -390,12 +254,8 @@ const categoryStyle = category ? getCategoryStyle(category) : null
   }
 
   @media (max-width: 768px) {
-    h1 {
-      font-size: 1.75rem;
-    }
-
     .article-container {
-      padding: 1.5rem 1rem 3rem;
+      padding: 0 1rem 3rem;
     }
   }
 </style>
