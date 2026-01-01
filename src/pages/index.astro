@@ -5,6 +5,7 @@ import HomepageHero from '../components/HomepageHero.astro'
 import FeaturedPost from '../components/FeaturedPost.astro'
 import PostCard from '../components/PostCard.astro'
 import NewsletterCTA from '../components/NewsletterCTA.astro'
+import SocialProof from '../components/SocialProof.astro'
 import { SITE_DESCRIPTION } from '../consts'
 import { getReadingTime } from '../utils/reading-time'
 
@@ -33,6 +34,8 @@ const remainingPosts = postsWithReadingTime.filter((p) => p.id !== featuredPost?
 
 <BaseLayout>
   <HomepageHero />
+
+  <SocialProof />
 
   {
     featuredPost && (
