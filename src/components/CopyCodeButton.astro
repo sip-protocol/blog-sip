@@ -55,7 +55,10 @@ const languageLabels: Record<string, string> = {
       pre.style.position = 'relative'
 
       const code = pre.querySelector('code')
-      const lang = code?.getAttribute('data-language') ||
+      // Shiki puts data-language on pre, not code
+      const lang = pre.getAttribute('data-language') ||
+                   pre.dataset?.language ||
+                   code?.getAttribute('data-language') ||
                    code?.className.match(/language-(\w+)/)?.[1] ||
                    ''
 

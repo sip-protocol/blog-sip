@@ -10,6 +10,7 @@ import TLDRBox from '../components/TLDRBox.astro'
 import CopyCodeButton from '../components/CopyCodeButton.astro'
 import ReadingProgress from '../components/ReadingProgress.astro'
 import PostNavigation from '../components/PostNavigation.astro'
+import TableOfContents from '../components/TableOfContents.astro'
 import { SITE_URL } from '../consts'
 
 interface NavPost {
@@ -17,10 +18,17 @@ interface NavPost {
   title: string
 }
 
+interface Heading {
+  depth: number
+  slug: string
+  text: string
+}
+
 type Props = CollectionEntry<'blog'>['data'] & {
   slug: string
   prevPost?: NavPost
   nextPost?: NavPost
+  headings?: Heading[]
 }
 
 const {
@@ -39,6 +47,7 @@ const {
   slug,
   prevPost,
   nextPost,
+  headings = [],
 } = Astro.props
 
 const articleUrl = `${SITE_URL}/blog/${slug}/`
@@ -143,6 +152,8 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
           </header>
 
           {tldr && <TLDRBox tldr={tldr} keyTakeaways={keyTakeaways} />}
+
+          <TableOfContents headings={headings} />
 
           <div class="prose" itemprop="articleBody">
             <slot />
