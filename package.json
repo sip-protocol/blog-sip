@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npx pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
@@ -34,6 +34,7 @@
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.5.0",
+    "pagefind": "^1.4.0",
     "postcss": "^8.5.6",
     "prettier": "^3.7.4",
     "prettier-plugin-astro": "^0.14.1",

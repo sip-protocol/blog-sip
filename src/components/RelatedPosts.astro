@@ -1,0 +1,164 @@
+---
+/**
+ * RelatedPosts - Shows related posts based on tags and category
+ * Algorithm: Match by tags (weighted) → category → recent
+ */
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+import FormattedDate from './FormattedDate.astro'
+
+interface Props {
+  currentSlug: string
+  currentTags?: string[]
+  currentCategory?: string
+  limit?: number
+}
+
+const { currentSlug, currentTags = [], currentCategory, limit = 3 } = Astro.props
+
+// Get all published posts except current
+const allPosts = await getCollection('blog', ({ data, id }) => {
+  const isPublished = import.meta.env.PROD ? !data.draft : true
+  return isPublished && id !== currentSlug
+})
+
+// Score posts by relevance
+function scorePost(post: CollectionEntry<'blog'>): number {
+  let score = 0
+  const postTags = post.data.tags || []
+  const postCategory = post.data.category
+
+  // Tag matches (2 points each)
+  for (const tag of currentTags) {
+    if (postTags.includes(tag)) {
+      score += 2
+    }
+  }
+
+  // Category match (1 point)
+  if (currentCategory && postCategory === currentCategory) {
+    score += 1
+  }
+
+  // Recency bonus (0-1 points based on date)
+  const now = Date.now()
+  const postDate = post.data.pubDate.valueOf()
+  const daysSincePost = (now - postDate) / (1000 * 60 * 60 * 24)
+  const recencyScore = Math.max(0, 1 - daysSincePost / 365)
+  score += recencyScore
+
+  return score
+}
+
+// Sort by score, then by date
+const relatedPosts = allPosts
+  .map((post) => ({ post, score: scorePost(post) }))
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score
+    return b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf()
+  })
+  .slice(0, limit)
+  .map(({ post }) => post)
+---
+
+{relatedPosts.length > 0 && (
+  <section class="related-posts">
+    <h2 class="related-title">Related Posts</h2>
+    <div class="related-grid">
+      {relatedPosts.map((post) => (
+        <a href={`/blog/${post.id}/`} class="related-card">
+          <div class="related-meta">
+            {post.data.category && (
+              <span class="related-category">{post.data.category}</span>
+            )}
+            <FormattedDate date={post.data.pubDate} />
+          </div>
+          <h3 class="related-card-title">{post.data.title}</h3>
+          <p class="related-description">{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-posts {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-primary);
+  }
+
+  .related-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem;
+    color: var(--text-primary);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-normal) ease;
+  }
+
+  .related-card:hover {
+    border-color: var(--sip-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  }
+
+  .related-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+
+  .related-category {
+    background: var(--sip-gradient);
+    color: white;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .related-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+    color: var(--text-primary);
+  }
+
+  .related-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

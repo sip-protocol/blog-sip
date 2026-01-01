@@ -1,6 +1,7 @@
 ---
 import { SITE_TITLE, TWITTER_HANDLE, GITHUB_URL } from '../consts'
 import ThemeToggle from './ThemeToggle.astro'
+import Search from './Search.astro'
 
 const pathname = Astro.url.pathname
 
@@ -70,6 +71,8 @@ const isActive = (href: string) => {
 
     <!-- Actions -->
     <div class="nav-actions">
+      <Search />
+
       <div class="nav-social">
         <a
           href={`https://x.com/${TWITTER_HANDLE.replace('@', '')}`}
