@@ -15,6 +15,7 @@ import BackToTop from '../components/BackToTop.astro'
 import ShareButtons from '../components/ShareButtons.astro'
 import RelatedPosts from '../components/RelatedPosts.astro'
 import NewsletterCTA from '../components/NewsletterCTA.astro'
+import ImageLightbox from '../components/ImageLightbox.astro'
 import Toast from '../components/Toast.astro'
 import { SITE_URL } from '../consts'
 
@@ -146,6 +147,7 @@ const imageUrl = heroImage ? new URL(heroImage.src, SITE_URL).toString() : ogIma
     <CopyCodeButton />
     <BackToTop />
     <Toast />
+    <ImageLightbox />
   </body>
 </html>
 

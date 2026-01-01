@@ -1,0 +1,496 @@
+---
+/**
+ * ImageLightbox - Click-to-expand lightbox for article images
+ * Uses native <dialog> element for accessibility
+ * Supports zoom, keyboard navigation, and pinch-to-zoom on mobile
+ */
+---
+
+<dialog id="image-lightbox" class="lightbox" aria-label="Image viewer">
+  <div class="lightbox-backdrop" data-close></div>
+
+  <div class="lightbox-container">
+    <div class="lightbox-controls">
+      <span class="lightbox-counter" aria-live="polite">
+        <span class="current">1</span> / <span class="total">1</span>
+      </span>
+
+      <div class="lightbox-actions">
+        <button class="lightbox-btn zoom-out" aria-label="Zoom out" title="Zoom out">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+        </button>
+        <button class="lightbox-btn zoom-in" aria-label="Zoom in" title="Zoom in">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="11" y1="8" x2="11" y2="14"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+        </button>
+        <button class="lightbox-btn close" aria-label="Close" title="Close (Esc)" data-close>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="lightbox-content">
+      <button class="lightbox-nav prev" aria-label="Previous image" title="Previous (←)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="lightbox-image-wrapper">
+        <img class="lightbox-image" src="" alt="" />
+      </div>
+
+      <button class="lightbox-nav next" aria-label="Next image" title="Next (→)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="lightbox-caption"></div>
+  </div>
+</dialog>
+
+<script>
+  interface LightboxState {
+    images: HTMLImageElement[]
+    currentIndex: number
+    zoomLevel: number
+    isOpen: boolean
+  }
+
+  function initLightbox() {
+    const dialog = document.getElementById('image-lightbox') as HTMLDialogElement
+    if (!dialog || dialog.dataset.initialized) return
+    dialog.dataset.initialized = 'true'
+
+    const lightboxImage = dialog.querySelector('.lightbox-image') as HTMLImageElement
+    const imageWrapper = dialog.querySelector('.lightbox-image-wrapper') as HTMLElement
+    const caption = dialog.querySelector('.lightbox-caption') as HTMLElement
+    const counter = dialog.querySelector('.lightbox-counter') as HTMLElement
+    const currentSpan = counter.querySelector('.current') as HTMLElement
+    const totalSpan = counter.querySelector('.total') as HTMLElement
+    const prevBtn = dialog.querySelector('.prev') as HTMLButtonElement
+    const nextBtn = dialog.querySelector('.next') as HTMLButtonElement
+    const zoomInBtn = dialog.querySelector('.zoom-in') as HTMLButtonElement
+    const zoomOutBtn = dialog.querySelector('.zoom-out') as HTMLButtonElement
+
+    const state: LightboxState = {
+      images: [],
+      currentIndex: 0,
+      zoomLevel: 1,
+      isOpen: false,
+    }
+
+    const ZOOM_STEP = 0.5
+    const MAX_ZOOM = 4
+    const MIN_ZOOM = 1
+
+    function collectImages(): HTMLImageElement[] {
+      const proseImages = document.querySelectorAll('.prose img, .article-content img, article img')
+      return Array.from(proseImages) as HTMLImageElement[]
+    }
+
+    function updateCounter() {
+      currentSpan.textContent = String(state.currentIndex + 1)
+      totalSpan.textContent = String(state.images.length)
+      counter.style.display = state.images.length > 1 ? 'flex' : 'none'
+    }
+
+    function updateNavigation() {
+      const showNav = state.images.length > 1
+      prevBtn.style.display = showNav ? 'flex' : 'none'
+      nextBtn.style.display = showNav ? 'flex' : 'none'
+      prevBtn.disabled = state.currentIndex === 0
+      nextBtn.disabled = state.currentIndex === state.images.length - 1
+    }
+
+    function resetZoom() {
+      state.zoomLevel = 1
+      lightboxImage.style.transform = 'scale(1)'
+      imageWrapper.classList.remove('zoomed')
+    }
+
+    function applyZoom() {
+      lightboxImage.style.transform = `scale(${state.zoomLevel})`
+      imageWrapper.classList.toggle('zoomed', state.zoomLevel > 1)
+    }
+
+    function showImage(index: number) {
+      if (index < 0 || index >= state.images.length) return
+
+      state.currentIndex = index
+      const img = state.images[index]
+
+      // Get the full resolution src
+      const fullSrc = img.dataset.src || img.src
+      lightboxImage.src = fullSrc
+      lightboxImage.alt = img.alt || ''
+
+      // Caption from alt or figcaption
+      const figcaption = img.closest('figure')?.querySelector('figcaption')
+      caption.textContent = figcaption?.textContent || img.alt || ''
+      caption.style.display = caption.textContent ? 'block' : 'none'
+
+      resetZoom()
+      updateCounter()
+      updateNavigation()
+    }
+
+    function open(img: HTMLImageElement) {
+      state.images = collectImages()
+      state.currentIndex = state.images.indexOf(img)
+      if (state.currentIndex === -1) state.currentIndex = 0
+
+      state.isOpen = true
+      showImage(state.currentIndex)
+      dialog.showModal()
+      document.body.style.overflow = 'hidden'
+    }
+
+    function close() {
+      state.isOpen = false
+      dialog.close()
+      document.body.style.overflow = ''
+      resetZoom()
+    }
+
+    function prev() {
+      if (state.currentIndex > 0) {
+        showImage(state.currentIndex - 1)
+      }
+    }
+
+    function next() {
+      if (state.currentIndex < state.images.length - 1) {
+        showImage(state.currentIndex + 1)
+      }
+    }
+
+    function zoomIn() {
+      if (state.zoomLevel < MAX_ZOOM) {
+        state.zoomLevel = Math.min(MAX_ZOOM, state.zoomLevel + ZOOM_STEP)
+        applyZoom()
+      }
+    }
+
+    function zoomOut() {
+      if (state.zoomLevel > MIN_ZOOM) {
+        state.zoomLevel = Math.max(MIN_ZOOM, state.zoomLevel - ZOOM_STEP)
+        applyZoom()
+      }
+    }
+
+    // Click handlers for images
+    function attachImageHandlers() {
+      const images = collectImages()
+      images.forEach((img) => {
+        if (img.dataset.lightbox === 'attached') return
+        img.dataset.lightbox = 'attached'
+        img.style.cursor = 'zoom-in'
+        img.addEventListener('click', () => open(img))
+      })
+    }
+
+    // Event listeners
+    dialog.querySelectorAll('[data-close]').forEach((el) => {
+      el.addEventListener('click', close)
+    })
+
+    prevBtn.addEventListener('click', prev)
+    nextBtn.addEventListener('click', next)
+    zoomInBtn.addEventListener('click', zoomIn)
+    zoomOutBtn.addEventListener('click', zoomOut)
+
+    // Double-click to toggle zoom
+    lightboxImage.addEventListener('dblclick', () => {
+      if (state.zoomLevel > 1) {
+        resetZoom()
+      } else {
+        state.zoomLevel = 2
+        applyZoom()
+      }
+    })
+
+    // Keyboard navigation
+    dialog.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'Escape':
+          close()
+          break
+        case 'ArrowLeft':
+          prev()
+          break
+        case 'ArrowRight':
+          next()
+          break
+        case '+':
+        case '=':
+          zoomIn()
+          break
+        case '-':
+          zoomOut()
+          break
+      }
+    })
+
+    // Pinch to zoom (touch devices)
+    let initialDistance = 0
+    let initialZoom = 1
+
+    imageWrapper.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 2) {
+        initialDistance = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        )
+        initialZoom = state.zoomLevel
+      }
+    }, { passive: true })
+
+    imageWrapper.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2) {
+        const currentDistance = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        )
+        const scale = currentDistance / initialDistance
+        state.zoomLevel = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, initialZoom * scale))
+        applyZoom()
+      }
+    }, { passive: true })
+
+    // Initialize
+    attachImageHandlers()
+
+    // Re-attach after view transitions
+    document.addEventListener('astro:after-swap', () => {
+      dialog.dataset.initialized = ''
+      initLightbox()
+    })
+  }
+
+  // Run on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLightbox)
+  } else {
+    initLightbox()
+  }
+</script>
+
+<style is:global>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  .lightbox-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .lightbox-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+  }
+
+  .lightbox-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
+  .lightbox-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .lightbox-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-fast) ease;
+  }
+
+  .lightbox-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .lightbox-btn:active {
+    transform: scale(0.95);
+  }
+
+  .lightbox-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    min-height: 0;
+  }
+
+  .lightbox-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-fast) ease;
+    flex-shrink: 0;
+  }
+
+  .lightbox-nav:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+
+  .lightbox-nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .lightbox-image-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1rem;
+    max-height: calc(100vh - 180px);
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+
+  .lightbox-image-wrapper.zoomed {
+    cursor: grab;
+    overflow: auto;
+  }
+
+  .lightbox-image-wrapper.zoomed:active {
+    cursor: grabbing;
+  }
+
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    transition: transform 0.2s ease;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .lightbox-caption {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .lightbox-controls {
+      padding: 0.75rem 1rem;
+    }
+
+    .lightbox-nav {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    .lightbox-nav svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .lightbox-image-wrapper {
+      margin: 0 0.5rem;
+    }
+
+    .lightbox-btn {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .lightbox-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox-image {
+      transition: none;
+    }
+
+    .lightbox-btn,
+    .lightbox-nav {
+      transition: none;
+    }
+  }
+
+  /* Make article images clickable */
+  .prose img,
+  .article-content img,
+  article img {
+    cursor: zoom-in;
+  }
+</style>
