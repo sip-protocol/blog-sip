@@ -6,9 +6,12 @@ services:
     container_name: sip-blog
     restart: unless-stopped
     ports:
-      - "5004:80"
+      - "5004:4321"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=4321
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4321/"]
       interval: 30s
       timeout: 3s
       retries: 3
