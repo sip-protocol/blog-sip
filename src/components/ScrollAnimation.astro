@@ -1,0 +1,95 @@
+---
+/**
+ * ScrollAnimation - Intersection Observer-based scroll animations
+ * Add data-animate attribute to elements to trigger animations on scroll
+ * Supports: fade-up, fade-in, slide-left, slide-right, scale-in
+ * Use data-delay="100" for staggered animations (in ms)
+ */
+---
+
+<style is:global>
+  /* Base state - hidden */
+  [data-animate] {
+    opacity: 0;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  /* Animation variants */
+  [data-animate="fade-up"] {
+    transform: translateY(30px);
+  }
+
+  [data-animate="fade-in"] {
+    transform: none;
+  }
+
+  [data-animate="slide-left"] {
+    transform: translateX(-30px);
+  }
+
+  [data-animate="slide-right"] {
+    transform: translateX(30px);
+  }
+
+  [data-animate="scale-in"] {
+    transform: scale(0.95);
+  }
+
+  /* Animated state */
+  [data-animate].animated {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  function initScrollAnimations() {
+    // Skip if user prefers reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-animate]').forEach(el => {
+        el.classList.add('animated')
+      })
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target
+            const delay = parseInt(el.dataset.delay || '0', 10)
+
+            setTimeout(() => {
+              el.classList.add('animated')
+            }, delay)
+
+            observer.unobserve(el)
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    )
+
+    document.querySelectorAll('[data-animate]').forEach(el => {
+      observer.observe(el)
+    })
+  }
+
+  // Initialize on page load
+  initScrollAnimations()
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:after-swap', initScrollAnimations)
+</script>

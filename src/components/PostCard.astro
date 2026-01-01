@@ -14,6 +14,7 @@ interface Props {
   tags?: string[]
   featured?: boolean
   readingTime?: number
+  animationIndex?: number
 }
 
 const {
@@ -26,13 +27,16 @@ const {
   tags = [],
   featured = false,
   readingTime,
+  animationIndex = 0,
 } = Astro.props
+
+const animationDelay = animationIndex * 100
 
 const href = `/blog/${slug}/`
 const categoryStyle = category ? getCategoryStyle(category) : null
 ---
 
-<article class:list={['post-card', { featured }]}>
+<article class:list={['post-card', { featured }]} data-animate="fade-up" data-delay={animationDelay}>
   {
     heroImage && (
       <a href={href} class="card-image">

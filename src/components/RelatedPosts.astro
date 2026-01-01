@@ -62,11 +62,11 @@ const relatedPosts = allPosts
 ---
 
 {relatedPosts.length > 0 && (
-  <section class="related-posts">
+  <section class="related-posts" data-animate="fade-in">
     <h2 class="related-title">Related Posts</h2>
     <div class="related-grid">
-      {relatedPosts.map((post) => (
-        <a href={`/blog/${post.id}/`} class="related-card">
+      {relatedPosts.map((post, index) => (
+        <a href={`/blog/${post.id}/`} class="related-card" data-animate="fade-up" data-delay={index * 100}>
           <div class="related-meta">
             {post.data.category && (
               <span class="related-category">{post.data.category}</span>

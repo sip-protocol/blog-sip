@@ -48,7 +48,7 @@ const remainingPosts = postsWithReadingTime.filter((p) => p.id !== featuredPost?
     )
   }
 
-  <section class="posts">
+  <section class="posts" data-animate="fade-in">
     <h2 class="section-title">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 20h9"></path>
@@ -58,7 +58,7 @@ const remainingPosts = postsWithReadingTime.filter((p) => p.id !== featuredPost?
     </h2>
     <div class="post-grid">
       {
-        remainingPosts.map((post) => (
+        remainingPosts.map((post, index) => (
           <PostCard
             title={post.data.title}
             description={post.data.description}
@@ -68,6 +68,7 @@ const remainingPosts = postsWithReadingTime.filter((p) => p.id !== featuredPost?
             category={post.data.category}
             tags={post.data.tags}
             readingTime={post.readingTime}
+            animationIndex={index}
           />
         ))
       }
