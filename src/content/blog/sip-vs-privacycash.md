@@ -1,6 +1,6 @@
 ---
 title: 'SIP vs Pool Mixing: The Cryptographic Difference'
-description: 'A technical comparison of Pedersen commitment privacy (SIP) vs pool mixing protocols (Tornado Cash, Privacy Cash) - why cryptographic hiding beats anonymity sets.'
+description: 'Pedersen commitments vs pool mixing: why math-based privacy beats crowd-based anonymity. Comparing SIP, Tornado Cash, and Privacy Cash.'
 pubDate: 'Jan 05 2025'
 updatedDate: 'Jan 02 2026'
 category: 'technical'
