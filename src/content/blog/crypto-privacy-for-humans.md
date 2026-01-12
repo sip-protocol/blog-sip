@@ -1,8 +1,8 @@
 ---
 title: 'Crypto Privacy for Humans: No Jargon, Just Facts'
-description: 'Your crypto wallet is a glass box. Everyone can see inside. Here is how privacy actually works in crypto - explained without technical jargon.'
+description: 'Your crypto wallet is a glass box. Everyone can see inside. Here's how privacy actually works in crypto - explained without technical jargon.'
 pubDate: 'Jan 12 2026'
-category: 'tutorials'
+category: 'thought-leadership'
 tags: ['privacy', 'beginners', 'explainer', 'encrypt-trade', 'hackathon']
 draft: false
 author: 'SIP Protocol Team'
