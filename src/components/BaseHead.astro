@@ -153,6 +153,13 @@ const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`
 <meta name="twitter:image" content={imageUrl} />
 <meta name="twitter:image:alt" content={title} />
 
+<!-- Umami Analytics (self-hosted, privacy-first) -->
+<script
+  defer
+  src="https://analytics.sip-protocol.org/script.js"
+  data-website-id="f1b2e6c9-c591-4252-b76e-71084bf9e30c"
+></script>
+
 <!-- JSON-LD slot (for structured data) -->
 <slot name="json-ld" />
 
