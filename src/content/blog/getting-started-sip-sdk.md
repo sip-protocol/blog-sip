@@ -889,7 +889,7 @@ Check out our [SDK documentation](https://docs.sip-protocol.org/sdk) for:
 
 - **GitHub**: [github.com/sip-protocol](https://github.com/sip-protocol)
 - **Discord**: [discord.gg/sip-protocol](https://discord.gg/sip-protocol)
-- **Twitter**: [@sip_protocol](https://twitter.com/sip_protocol)
+- **X**: [@sipprotocol](https://x.com/sipprotocol)
 
 ### 4. Build Something
 
