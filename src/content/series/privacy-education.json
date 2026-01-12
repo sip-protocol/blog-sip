@@ -1,0 +1,167 @@
+{
+  "id": "privacy-education",
+  "title": "Privacy on Solana: A Comprehensive Guide",
+  "description": "17-article educational series covering Solana privacy from fundamentals to advanced implementations. Includes cryptography deep-dives, protocol comparisons, and practical tutorials.",
+  "targetWordCount": 52500,
+  "articles": [
+    {
+      "number": 1,
+      "slug": "why-privacy-matters-solana",
+      "title": "Why Privacy Matters on Solana: The Complete Guide",
+      "category": "thought-leadership",
+      "wordCount": 3000,
+      "phase": 1
+    },
+    {
+      "number": 2,
+      "slug": "solana-privacy-landscape-2026",
+      "title": "The State of Privacy on Solana (2026): A Technical Overview",
+      "category": "technical",
+      "wordCount": 2500,
+      "phase": 1
+    },
+    {
+      "number": 3,
+      "slug": "understanding-pool-mixing-solana",
+      "title": "Understanding Pool Mixing: How PrivacyCash Works",
+      "category": "technical",
+      "wordCount": 2500,
+      "phase": 1
+    },
+    {
+      "number": 4,
+      "slug": "mpc-confidential-computing-arcium",
+      "title": "MPC and Confidential Computing: How Arcium Enables Private DeFi",
+      "category": "technical",
+      "wordCount": 2500,
+      "phase": 1
+    },
+    {
+      "number": 5,
+      "slug": "tee-encryption-inco-lightning",
+      "title": "TEE-Based Privacy: How Inco Lightning Brings Fast Encryption to Solana",
+      "category": "technical",
+      "wordCount": 3000,
+      "phase": 1
+    },
+    {
+      "number": 6,
+      "slug": "pedersen-commitments-explained",
+      "title": "Pedersen Commitments Deep-Dive: The Math Behind Amount Hiding",
+      "category": "technical",
+      "wordCount": 3000,
+      "phase": 2
+    },
+    {
+      "number": 7,
+      "slug": "stealth-addresses-eip-5564",
+      "title": "Stealth Addresses Explained: EIP-5564 and Recipient Privacy",
+      "category": "technical",
+      "wordCount": 2500,
+      "phase": 2
+    },
+    {
+      "number": 8,
+      "slug": "viewing-keys-compliance",
+      "title": "Viewing Keys: Privacy That Passes Compliance",
+      "category": "technical",
+      "wordCount": 2500,
+      "phase": 2
+    },
+    {
+      "number": 9,
+      "slug": "zero-knowledge-proofs-solana",
+      "title": "Zero-Knowledge Proofs on Solana: From Theory to Practice",
+      "category": "technical",
+      "wordCount": 3000,
+      "phase": 2
+    },
+    {
+      "number": 10,
+      "slug": "getting-started-sip-sdk",
+      "title": "Getting Started with @sip-protocol/sdk: Your First Private Transaction",
+      "category": "tutorials",
+      "wordCount": 3500,
+      "phase": 3
+    },
+    {
+      "number": 11,
+      "slug": "integrating-privacycash-dapp",
+      "title": "Integrating PrivacyCash Into Your Solana dApp",
+      "category": "tutorials",
+      "wordCount": 3500,
+      "phase": 3
+    },
+    {
+      "number": 12,
+      "slug": "building-arcium-mpc-application",
+      "title": "Building with Arcium: Your First MPC Application",
+      "category": "tutorials",
+      "wordCount": 3500,
+      "phase": 3
+    },
+    {
+      "number": 13,
+      "slug": "inco-lightning-tutorial",
+      "title": "Fast Privacy with Inco Lightning: A Developer Tutorial",
+      "category": "tutorials",
+      "wordCount": 3500,
+      "phase": 3
+    },
+    {
+      "number": 14,
+      "slug": "privacy-solana-defi-future",
+      "title": "Privacy and Solana DeFi: Building the Future of Private Finance",
+      "category": "thought-leadership",
+      "wordCount": 3500,
+      "phase": 4
+    },
+    {
+      "number": 15,
+      "slug": "regulatory-landscape-privacy-2026",
+      "title": "The Regulatory Landscape for Privacy in 2026: Compliance Without Compromise",
+      "category": "thought-leadership",
+      "wordCount": 3500,
+      "phase": 4
+    },
+    {
+      "number": 16,
+      "slug": "privacy-backend-aggregation",
+      "title": "Privacy Backend Aggregation: The Case for Protocol-Agnostic Privacy",
+      "category": "thought-leadership",
+      "wordCount": 3500,
+      "phase": 4
+    },
+    {
+      "number": 17,
+      "slug": "future-solana-privacy-2027",
+      "title": "The Future of Solana Privacy: Predictions for 2027 and Beyond",
+      "category": "thought-leadership",
+      "wordCount": 3500,
+      "phase": 4
+    }
+  ],
+  "tags": [
+    "privacy",
+    "solana",
+    "pedersen-commitments",
+    "stealth-addresses",
+    "viewing-keys",
+    "zero-knowledge",
+    "mpc",
+    "tee",
+    "pool-mixing",
+    "defi",
+    "compliance",
+    "cryptography"
+  ],
+  "relatedBounties": [
+    {
+      "sponsor": "Encrypt.trade",
+      "track": "Educational Content",
+      "prize": "$1,000"
+    }
+  ],
+  "created": "2026-01-12",
+  "status": "in-progress"
+}

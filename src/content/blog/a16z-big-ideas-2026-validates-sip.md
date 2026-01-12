@@ -1,5 +1,5 @@
 ---
-title: "a16z's Big Ideas 2026: Why Privacy is Crypto's Next Moat"
+title: "a16z Big Ideas 2026: Privacy is Crypto's Next Moat"
 description: "Andreessen Horowitz identifies privacy as creating chain lock-in and agent credentials as essential infrastructure. SIP Protocol has been building exactly this."
 pubDate: 'Jan 01 2026'
 category: 'ecosystem'
