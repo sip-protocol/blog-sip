@@ -17,6 +17,10 @@ targetAudience: 'Crypto users curious about privacy, non-technical readers, newc
 prerequisites:
   - 'Basic understanding of what cryptocurrency is'
   - 'No technical knowledge required'
+relatedPosts:
+  - 'sip-vs-privacycash'
+  - 'why-privacy-matters-solana'
+  - 'viewing-keys-compliance'
 ---
 
 Let's start with an uncomfortable truth: **Every crypto transaction you've ever made is public.**
@@ -57,7 +61,7 @@ These aren't hypotheticals. Blockchain analytics companies like Chainalysis and 
 
 So how do you get privacy in a system designed for transparency?
 
-There are two fundamentally different approaches:
+Projects like [Encrypt.trade](https://encrypt.trade) are building privacy-first trading infrastructure. But to understand what they're doing, you need to know the two fundamentally different approaches to privacy:
 
 ### Approach 1: Hide in the Crowd
 
@@ -125,7 +129,7 @@ You choose who sees what. That's what "selective privacy" means.
 |---------|-----------|-------------|--------------|
 | Who can see your transactions? | Everyone | No one (if pool is big enough) | Only people you choose |
 | Depends on other users? | N/A | Yes - bigger crowd = more privacy | No - math works alone |
-| Compliance possible? | Yes (forced) | Difficult | Yes (viewing keys) |
+| Compliance possible? | Yes (forced) | Yes (selective disclosure) | Yes (viewing keys) |
 | Any amount works? | Yes | Usually (modern versions) | Yes |
 | Works across chains? | N/A | Usually one chain | Any chain |
 
