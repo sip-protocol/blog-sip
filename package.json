@@ -27,6 +27,11 @@
     "remark-gfm": "^4.0.1",
     "sharp": "^0.34.3"
   },
+  "pnpm": {
+    "overrides": {
+      "diff": "^8.0.3"
+    }
+  },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19",
     "@typescript-eslint/eslint-plugin": "^8.53.0",
