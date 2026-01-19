@@ -106,7 +106,7 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
           nativeBtn.addEventListener('click', async () => {
             try {
               await navigator.share({ title, url })
-            } catch (err) {
+            } catch {
               // User cancelled or error - silently ignore
             }
           })
