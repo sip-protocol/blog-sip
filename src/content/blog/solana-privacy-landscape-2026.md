@@ -234,7 +234,7 @@ Inco's roadmap includes **Atlas**, a future product using FHE (Fully Homomorphic
 
 **Approach:** Pedersen commitments, stealth addresses, viewing keys
 **Status:** Production SDK (v0.6.0), Solana same-chain integration in development
-**Achievement:** Zypherpunk Hackathon winner ($4,500, December 2025)
+**Achievement:** Zypherpunk Hackathon winner ($6,500, 3 tracks, December 2025)
 
 SIP Protocol takes a different architectural position: rather than being a single privacy solution, SIP is privacy middleware that can aggregate multiple backends.
 
