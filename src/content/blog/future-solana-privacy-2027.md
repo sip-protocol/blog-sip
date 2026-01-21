@@ -49,7 +49,7 @@ The Solana privacy landscape has fragmented into four distinct approaches:
 
 **TEE (Inco Lightning):** Devnet Beta with ~2 second latency. Hardware-based privacy using trusted execution environments. Fast but requires hardware trust assumptions.
 
-**Cryptographic Middleware (SIP Protocol):** Production SDK with 2,757 tests. Pedersen commitments, stealth addresses, viewing keys. Chain-agnostic design working across Solana, Ethereum, NEAR.
+**Cryptographic Middleware (SIP Protocol):** Production SDK with 6,850+ tests. Pedersen commitments, stealth addresses, viewing keys. Chain-agnostic design working across Solana, Ethereum, NEAR.
 
 ### Regulatory Frameworks Emerging
 

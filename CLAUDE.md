@@ -21,7 +21,8 @@ npm run preview      # Preview production build
 - **Framework:** Astro 5.x with TypeScript (strict)
 - **Styling:** Tailwind CSS v4
 - **Content:** MDX with Content Collections
-- **Deployment:** Docker + nginx (GHCR → VPS)
+- **Deployment:** Docker + nginx (GHCR → VPS, port 5004)
+- **Posts:** 25 published (M16 target: 12 — exceeded)
 
 ---
 
@@ -189,4 +190,4 @@ docker run -p 5004:80 blog-sip
 
 ---
 
-**Last Updated:** 2025-12-31
+**Last Updated:** 2026-01-21

@@ -315,7 +315,7 @@ This means applications integrate once with SIP and gain access to multiple priv
 
 #### Current Status
 
-- **SDK:** Production-ready with 2,757 tests
+- **SDK:** Production-ready with 6,850+ tests
 - **Chain support:** Solana, Ethereum, NEAR, Bitcoin, Cosmos, Move chains
 - **Active development:** Solana same-chain privacy (M17 milestone)
 
