@@ -1,7 +1,7 @@
 # SIP Protocol Blog - UI/UX Enhancement Plan
 
 ## Vision
-Transform the blog from a basic Astro template into a **world-class technical blog** that rivals Vercel, Linear, and Tailwind's design standards. The goal: make visitors think "this team knows what they're doing" within 3 seconds.
+Transform the blog from a basic Astro template into a **world-class technical blog** that rivals Linear, Stripe, and Tailwind's design standards. The goal: make visitors think "this team knows what they're doing" within 3 seconds.
 
 ---
 
@@ -145,12 +145,12 @@ Transform the blog from a basic Astro template into a **world-class technical bl
 
 | Site | What to Learn |
 |------|---------------|
-| [vercel.com/blog](https://vercel.com/blog) | Clean cards, dark mode, typography |
 | [linear.app/blog](https://linear.app/blog) | Bento grid, animations, glassmorphism |
 | [tailwindcss.com/blog](https://tailwindcss.com/blog) | Code blocks, reading experience |
 | [stripe.com/blog](https://stripe.com/blog) | Professional polish, illustrations |
 | [planetscale.com/blog](https://planetscale.com/blog) | Developer-focused, dark theme |
 | [raycast.com/blog](https://raycast.com/blog) | Command palette, micro-interactions |
+| [supabase.com/blog](https://supabase.com/blog) | Clean cards, dark mode, typography |
 
 ---
 
