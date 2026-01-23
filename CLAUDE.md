@@ -101,11 +101,14 @@ relatedPosts:                 # Slugs of related posts
 
 ## Writing Posts
 
-1. Create file in `src/content/blog/` (use `.mdx` for components)
-2. Add required frontmatter (title, description, pubDate)
-3. Add category and tags for discoverability
-4. For LLMO: Add `tldr` and `keyTakeaways`
+**IMPORTANT:** Before writing any blog post, read `docs/BLOG_STYLE_GUIDE.md` for complete standards.
+
+1. Read `docs/BLOG_STYLE_GUIDE.md` first
+2. Create file in `src/content/blog/` (use `.mdx` for components)
+3. Add ALL required frontmatter fields (see style guide)
+4. Include `relatedPosts` (2-4 related articles)
 5. Run `npm run dev` to preview
+6. Use pre-publish checklist from style guide
 
 ### LLMO Best Practices
 
@@ -177,16 +180,23 @@ docker run -p 5004:80 blog-sip
 
 ## AI Assistant Guidelines
 
+**BEFORE WRITING ANY POST:**
+- Read `docs/BLOG_STYLE_GUIDE.md` for complete formatting standards
+
 **DO:**
 - Follow the content schema strictly
+- Include ALL required frontmatter fields
+- Always add `relatedPosts` (2-4 articles)
 - Include LLMO fields for discoverability
 - Reference core repo for technical accuracy
 - Run `npm run build` before committing
+- Use pre-publish checklist from style guide
 
 **DON'T:**
 - Create posts without category/tags
 - Skip tldr for technical posts
 - Commit draft posts (use `draft: true`)
+- Forget `relatedPosts` field
 
 ---
 
