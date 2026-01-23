@@ -19,6 +19,10 @@ targetAudience: 'Blockchain developers, security researchers, crypto users compa
 prerequisites:
   - 'Basic understanding of blockchain transactions'
   - 'Familiarity with privacy concepts'
+relatedPosts:
+  - 'pedersen-commitments-explained'
+  - 'understanding-pool-mixing-solana'
+  - 'solana-privacy-landscape-2026'
 ---
 
 Privacy in Web3 has evolved significantly. Tornado Cash pioneered pool mixing, Privacy Cash brought it to Solana with compliance features, and SIP Protocol introduced Pedersen commitment-based privacy. Let's examine how these approaches actually differ.

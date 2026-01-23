@@ -16,6 +16,10 @@ targetAudience: 'Crypto builders, VCs, institutional players, and anyone followi
 prerequisites:
   - 'General understanding of blockchain and privacy'
   - 'Awareness of AI agents in crypto'
+relatedPosts:
+  - 'viewing-keys-compliance'
+  - 'future-solana-privacy-2027'
+  - 'sip-roadmap-2026-explained'
 ---
 
 Andreessen Horowitz just published their "Big Ideas to Build in 2026" series, and two predictions stand out: **privacy creates chain lock-in** and **agents need cryptographic credentials**.

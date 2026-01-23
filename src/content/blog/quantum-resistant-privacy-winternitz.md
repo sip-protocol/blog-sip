@@ -17,6 +17,10 @@ prerequisites:
   - 'Understanding of public-key cryptography'
   - 'Basic knowledge of hash functions'
   - 'Familiarity with quantum computing threats'
+relatedPosts:
+  - 'stealth-addresses-eip-5564'
+  - 'the-1000-year-blockchain'
+  - 'sip-roadmap-2026-explained'
 ---
 
 Quantum computers are coming. When they arrive, the cryptography protecting your crypto assets will break. SIP Protocol is preparing now with Winternitz One-Time Signature integration.

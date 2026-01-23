@@ -13,6 +13,11 @@ keyTakeaways:
   - 'Built with Astro, optimized for SEO and LLM discoverability'
   - 'Part of the mission to make privacy the standard for Web3'
 targetAudience: 'Web3 developers, privacy enthusiasts, blockchain architects, crypto users interested in privacy'
+prerequisites: []
+relatedPosts:
+  - 'getting-started-sip-sdk'
+  - 'why-privacy-matters-solana'
+  - 'sip-roadmap-2026-explained'
 ---
 
 We're excited to launch the official SIP Protocol blog - your new home for everything privacy in Web3.

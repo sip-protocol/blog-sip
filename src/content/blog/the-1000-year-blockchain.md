@@ -18,6 +18,10 @@ targetAudience: 'Developers, investors, and crypto enthusiasts interested in blo
 prerequisites:
   - 'Basic understanding of blockchain and cryptocurrency'
   - 'Familiarity with concepts like mining, staking, and transaction fees'
+relatedPosts:
+  - 'future-solana-privacy-2027'
+  - 'quantum-resistant-privacy-winternitz'
+  - 'regulatory-landscape-privacy-2026'
 ---
 
 import Callout from '../../components/Callout.astro'
