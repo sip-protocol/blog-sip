@@ -200,4 +200,4 @@ docker run -p 5004:80 blog-sip
 
 ---
 
-**Last Updated:** 2026-01-21
+**Last Updated:** 2026-01-25
