@@ -1,6 +1,6 @@
 ---
 title: 'SIP Roadmap 2026: From Same-Chain Privacy to Industry Standard'
-description: 'A comprehensive guide to SIP Protocol milestones M17-M22. Same-chain privacy on Solana and Ethereum, proof composition, and the path to becoming the Web3 privacy standard.'
+description: 'SIP roadmap M17-M22: Same-chain privacy on Solana & Ethereum, proof composition, and the path to Web3 privacy standard.'
 pubDate: 'Jan 23 2026'
 category: 'announcements'
 tags: ['roadmap', 'milestones', 'solana', 'ethereum', 'privacy', 'strategy', '2026', 'vision']
