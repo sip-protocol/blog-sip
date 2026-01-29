@@ -1,5 +1,7 @@
 # CLAUDE.md - SIP Protocol Blog
 
+> **Ecosystem Hub:** See [sip-protocol/CLAUDE.md](https://github.com/sip-protocol/sip-protocol/blob/main/CLAUDE.md) for full ecosystem context
+
 **Repository:** https://github.com/sip-protocol/blog-sip
 **Live URL:** https://blog.sip-protocol.org
 **Purpose:** Technical deep-dives, ecosystem updates, and privacy thought leadership
