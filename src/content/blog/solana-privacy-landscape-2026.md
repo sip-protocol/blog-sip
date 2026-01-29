@@ -1,17 +1,19 @@
 ---
 title: 'The State of Privacy on Solana (2026): A Technical Overview'
-description: 'A comprehensive survey of privacy solutions on Solana: PrivacyCash, Arcium, Inco Lightning, and SIP Protocol. Compare approaches, features, and trade-offs.'
+description: 'Survey of Solana privacy: PrivacyCash, ShadowWire, Arcium, Inco Lightning, and SIP. Compare approaches, features, and trade-offs.'
 pubDate: 'Jan 12 2026'
+updatedDate: 'Jan 29 2026'
 category: 'technical'
-tags: ['privacy', 'solana', 'privacycash', 'arcium', 'inco', 'sip-protocol', 'comparison']
+tags: ['privacy', 'solana', 'privacycash', 'shadowwire', 'arcium', 'inco', 'sip-protocol', 'comparison']
 draft: false
 author: 'SIP Protocol Team'
-tldr: 'Solana has four main privacy approaches: pool mixing (PrivacyCash), MPC (Arcium), TEE (Inco), and cryptographic (SIP). Each has different trade-offs in latency, privacy guarantees, and compliance features.'
+tldr: 'Solana has five main privacy approaches: pool mixing (PrivacyCash), bulletproofs (ShadowWire), MPC (Arcium), TEE (Inco), and cryptographic middleware (SIP). Each has different trade-offs in latency, privacy guarantees, and compliance features.'
 keyTakeaways:
   - 'Pool mixing hides you in a crowd; cryptographic methods hide data mathematically'
+  - 'ShadowWire uses Bulletproofs for efficient sender anonymity without trusted setup'
   - 'Arcium uses distributed MPC for trustless computation over encrypted data'
   - 'Inco Lightning offers ~2 second latency with TEE-based encryption'
-  - 'SIP aggregates multiple backends through a unified API'
+  - 'SIP aggregates multiple backends (including ShadowWire) through a unified API'
   - 'All modern solutions now offer compliance paths (viewing keys, auditor access)'
 targetAudience: 'Solana developers, DeFi builders, privacy researchers'
 prerequisites:
@@ -23,7 +25,7 @@ relatedPosts:
 
 Privacy on Solana has transformed dramatically. After the shutdown of Elusiv in early 2024 and Light Protocol's pivot to ZK compression, many questioned whether privacy had a future on Solana's high-performance chain. The answer, as of January 2026, is a resounding yes—but the landscape looks nothing like what we expected.
 
-Four distinct approaches have emerged, each with fundamentally different architectures, trust assumptions, and use cases. This technical overview surveys the major players and helps you understand which solution fits your needs.
+Five distinct approaches have emerged, each with fundamentally different architectures, trust assumptions, and use cases. This technical overview surveys the major players and helps you understand which solution fits your needs.
 
 ## A Brief History: Solana's Privacy Journey
 
@@ -38,13 +40,13 @@ On February 29, 2024, Elusiv announced sunsetting. The team realized that privac
 Light Protocol, which had started as a privacy solution, pivoted entirely to ZK compression for scalability. Their technology proved more valuable for reducing storage costs (up to 99% savings) than for privacy.
 
 **Late 2024-2025: The Rebirth**
-New protocols emerged with lessons learned. PrivacyCash launched with compliance features from day one. Arcium revealed its MPC infrastructure vision. Inco brought TEE-based speed. And SIP Protocol introduced cryptographic middleware.
+New protocols emerged with lessons learned. PrivacyCash launched with compliance features from day one. ShadowWire brought Bulletproof-based sender anonymity. Arcium revealed its MPC infrastructure vision. Inco brought TEE-based speed. And SIP Protocol introduced cryptographic middleware that aggregates multiple backends.
 
-Now let's examine the four paradigms these protocols represent.
+Now let's examine the five paradigms these protocols represent.
 
-## The Four Privacy Paradigms
+## The Five Privacy Paradigms
 
-Before diving into specific protocols, let's understand the four fundamental approaches to blockchain privacy:
+Before diving into specific protocols, let's understand the five fundamental approaches to blockchain privacy:
 
 ### 1. Pool Mixing (Statistical Privacy)
 
@@ -77,6 +79,16 @@ Zero-knowledge proofs, Pedersen commitments, and stealth addresses provide priva
 **Why mathematics?** Cryptographic privacy doesn't degrade with small user counts. The security of hiding 1 SOL is identical to hiding 1,000,000 SOL—both rely on the same mathematical hardness assumptions that secure all modern cryptography.
 
 **Trust assumption:** The cryptographic assumptions (discrete log hardness, etc.) hold. These same assumptions underpin Bitcoin, Ethereum, and virtually all blockchain security.
+
+### 5. ZK Range Proofs (Bulletproofs)
+
+Bulletproofs are a specialized form of zero-knowledge proof optimized for proving that a value lies within a range without revealing the value itself. They're particularly efficient for proving transaction validity (amounts are positive, no overflow) with small proof sizes.
+
+**How it works:** When you send tokens, Bulletproofs prove that (1) the amount is positive, (2) you have sufficient balance, and (3) no tokens were created from nothing—all without revealing actual amounts.
+
+**Key advantage:** No trusted setup required. Unlike SNARKs that need an initial ceremony, Bulletproofs derive security purely from cryptographic assumptions. This eliminates a major trust concern.
+
+**Trust assumption:** Discrete log hardness (same as Bitcoin/Ethereum signatures). Proof sizes are logarithmic in the range size, making them practical for blockchain use.
 
 ## Major Players on Solana
 
@@ -119,6 +131,69 @@ In January 2026, PrivacyCash partnered with ORE to launch an official shielded p
 - Privacy depends on pool size—early adoption means smaller anonymity sets
 - Fixed pool architecture limits composability
 - Statistical analysis can narrow down possibilities with unusual amounts
+
+### ShadowWire: Bulletproof-Based Privacy
+
+**Approach:** Pedersen commitments + Bulletproofs for sender anonymity
+**Developer:** Radr Labs
+**Status:** Production mainnet
+**Website:** [radrlabs.io](https://radrlabs.io)
+
+ShadowWire takes a different approach from pool mixing: rather than hiding transactions in a crowd, it uses Bulletproofs to mathematically prove transaction validity without revealing amounts or sender identity.
+
+#### How It Works
+
+1. User deposits tokens into their ShadowWire balance (on-chain transaction)
+2. For transfers, Bulletproofs prove the sender has sufficient balance
+3. Pedersen commitments hide the actual amounts being transferred
+4. Recipients receive funds without the public ledger revealing who sent what
+
+```
+Deposit → ShadowWire Balance → Private Transfer → Withdrawal
+            (hidden)              (ZK proof)        (on-chain)
+```
+
+#### Key Features
+
+- **No trusted setup:** Unlike SNARKs, Bulletproofs don't require a ceremony
+- **Sender anonymity:** Internal transfers hide the sender identity
+- **Amount hiding:** Pedersen commitments conceal transaction values
+- **Arbitrary amounts:** No fixed denominations like pool mixing
+- **Multi-token support:** SOL, USDC, RADR, ORE, BONK, and more
+
+#### Technical Details
+
+- **Proof generation:** ~500ms client-side (WASM available)
+- **Verification:** Efficient on-chain verification
+- **Transfer types:**
+  - **Internal:** Between ShadowWire users (full privacy)
+  - **External:** To non-users (sender privacy only)
+
+#### SIP Integration
+
+SIP Protocol integrates ShadowWire as a privacy backend, adding viewing keys for compliance:
+
+```typescript
+import { ShadowWireBackend } from '@sip-protocol/sdk'
+
+const backend = new ShadowWireBackend()
+const result = await backend.execute({
+  chain: 'solana',
+  sender: senderPubkey,
+  recipient: recipientPubkey,
+  mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // USDC
+  amount: 1000000n, // 1 USDC
+  decimals: 6,
+  viewingKey: viewingKey, // SIP adds compliance
+})
+```
+
+#### Limitations
+
+- Requires deposit/withdrawal steps (not direct wallet-to-wallet)
+- Solana-only currently
+- External transfers reveal sender to recipient
+- Limited DeFi composability (transfers only, no swaps)
 
 ### Arcium: MPC-Powered Encrypted Computing
 
@@ -321,18 +396,18 @@ This means applications integrate once with SIP and gain access to multiple priv
 
 ## Comparison Table
 
-| Feature | PrivacyCash | Arcium | Inco Lightning | SIP Protocol |
-|---------|-------------|--------|----------------|--------------|
-| **Privacy Model** | Pool mixing | MPC | TEE | Cryptographic |
-| **Trust Assumption** | Anonymity set | 1 honest node | Hardware | Math only |
-| **Latency** | ~5-10s | ~5-15s | ~2s | Chain-dependent |
-| **Arbitrary Amounts** | Yes | Yes | Yes | Yes |
-| **Compliance** | Selective disclosure | Configurable | Access control | Viewing keys |
-| **Chain Support** | Solana only | Solana (expanding) | Multi-chain | Chain-agnostic |
-| **Composability** | Limited | High | High | High |
-| **Status** | Production | Mainnet Alpha | Devnet Beta | SDK Production |
-| **Homomorphic** | No | Yes (limited) | No | Yes |
-| **TVL/Volume** | $888K TVL, $160M+ volume | N/A (pre-launch) | N/A (beta) | N/A |
+| Feature | PrivacyCash | ShadowWire | Arcium | Inco Lightning | SIP Protocol |
+|---------|-------------|------------|--------|----------------|--------------|
+| **Privacy Model** | Pool mixing | Bulletproofs | MPC | TEE | Middleware |
+| **Trust Assumption** | Anonymity set | Math only | 1 honest node | Hardware | Backend-dependent |
+| **Latency** | ~5-10s | ~2s | ~5-15s | ~2s | Backend-dependent |
+| **Arbitrary Amounts** | Yes | Yes | Yes | Yes | Yes |
+| **Compliance** | Selective disclosure | Via SIP | Configurable | Access control | Viewing keys |
+| **Chain Support** | Solana only | Solana only | Solana (expanding) | Multi-chain | Chain-agnostic |
+| **Composability** | Limited | Limited | High | High | High |
+| **Status** | Production | Production | Mainnet Alpha | Devnet Beta | SDK Production |
+| **Trusted Setup** | Yes (ZK) | No | No | N/A | Backend-dependent |
+| **Homomorphic** | No | No | Yes (limited) | No | Yes |
 
 ## DEX and Wallet Integration
 
@@ -343,17 +418,18 @@ Privacy is only useful if it integrates with the applications you use. Here's th
 Jupiter, Solana's dominant aggregator, has shown interest in privacy features:
 
 - PrivacyCash: No direct integration (separate interface)
+- ShadowWire: No direct integration (transfers only, no swaps)
 - Arcium: Potential dark pool integration for institutional trades
 - Inco: Possible confidential limit orders
-- SIP: Active development of Jupiter privacy wrapper
+- SIP: Active development of Jupiter privacy wrapper (aggregates all backends)
 
 ### Wallet Support
 
-| Wallet | PrivacyCash | Arcium | Inco | SIP |
-|--------|-------------|--------|------|-----|
-| Phantom | Via webapp | Planned | Planned | SDK ready |
-| Solflare | Via webapp | Planned | Planned | SDK ready |
-| Backpack | Via webapp | Planned | Planned | SDK ready |
+| Wallet | PrivacyCash | ShadowWire | Arcium | Inco | SIP |
+|--------|-------------|------------|--------|------|-----|
+| Phantom | Via webapp | Via webapp | Planned | Planned | SDK ready |
+| Solflare | Via webapp | Via webapp | Planned | Planned | SDK ready |
+| Backpack | Via webapp | Via webapp | Planned | Planned | SDK ready |
 
 Most solutions currently require dedicated web interfaces rather than native wallet integration.
 
@@ -364,6 +440,13 @@ Most solutions currently require dedicated web interfaces rather than native wal
 - Expanded token support (more SPL tokens)
 - Improved anonymity set tools
 - Cross-protocol shielded pools
+
+### ShadowWire
+
+- Expanded token support (community-requested tokens)
+- Improved proof generation performance
+- Mobile SDK for native app integration
+- Potential DeFi integrations beyond transfers
 
 ### Arcium
 
@@ -391,6 +474,14 @@ Most solutions currently require dedicated web interfaces rather than native wal
 - You're comfortable with pool-based anonymity
 - Single-chain (Solana) is sufficient
 - You want a battle-tested approach
+
+### Use ShadowWire when:
+
+- You want mathematical privacy without trusted setup
+- Sender anonymity is your primary concern
+- You prefer Bulletproofs over pool-based mixing
+- You need fast proof generation (~500ms)
+- Compliance via SIP viewing keys is acceptable
 
 ### Use Arcium when:
 
@@ -427,7 +518,7 @@ The foundation has articulated three pillars for privacy infrastructure:
 2. **Confidential Transfers**: Native token privacy at the protocol level
 3. **Light Clients and Bridges**: Privacy-preserving cross-chain communication
 
-All four major protocols align with this strategy in different ways. The foundation isn't picking winners—it's fostering an ecosystem.
+All five major protocols align with this strategy in different ways. The foundation isn't picking winners—it's fostering an ecosystem.
 
 ### What Developers Should Consider
 
@@ -445,11 +536,11 @@ When evaluating privacy solutions for your Solana application, consider:
 
 ### Competition Breeds Innovation
 
-The competition between approaches is healthy. Pool mixing, MPC, TEE, and cryptographic methods each have legitimate use cases. Developers now have choices that didn't exist two years ago.
+The competition between approaches is healthy. Pool mixing, Bulletproofs, MPC, TEE, and cryptographic middleware each have legitimate use cases. Developers now have choices that didn't exist two years ago.
 
-For Solana specifically, the Solana Privacy Hack (January 12-30, 2026) signals foundation-level commitment to privacy infrastructure. With $100,000+ in prizes and participation from all four major protocols, expect rapid innovation in the coming months.
+For Solana specifically, the Solana Privacy Hack (January 12-30, 2026) signals foundation-level commitment to privacy infrastructure. With $100,000+ in prizes and participation from all five major protocols, expect rapid innovation in the coming months.
 
-The protocols covered here aren't just competing—they're expanding the design space. Arcium's C-SPL could become the confidential token standard. SIP's viewing key pattern might influence compliance across the ecosystem. Inco's TEE work pushes latency boundaries.
+The protocols covered here aren't just competing—they're expanding the design space. Arcium's C-SPL could become the confidential token standard. ShadowWire's no-trusted-setup Bulletproofs offer an alternative to pool mixing. SIP's viewing key pattern might influence compliance across the ecosystem. Inco's TEE work pushes latency boundaries.
 
 Privacy on Solana isn't just possible—it's becoming a first-class citizen of the ecosystem. The question isn't whether to add privacy to your application, but which approach fits your specific needs.
 
