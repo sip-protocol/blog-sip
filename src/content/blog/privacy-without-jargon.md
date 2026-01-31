@@ -2,7 +2,7 @@
 title: 'privacy on solana, explained like youre not a cryptographer'
 description: 'why your wallet is basically a glass house and what you can do about it. no jargon, just real talk.'
 pubDate: 'Jan 31 2026'
-category: 'education'
+category: 'tutorials'
 tags: ['privacy', 'solana', 'beginners', 'encrypt-trade']
 draft: false
 author: 'rector'

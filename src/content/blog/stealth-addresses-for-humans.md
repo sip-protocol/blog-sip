@@ -2,7 +2,7 @@
 title: 'stealth addresses: one-time addresses without the math'
 description: 'how to receive payments without everyone knowing its you. explained simply.'
 pubDate: 'Jan 31 2026'
-category: 'education'
+category: 'tutorials'
 tags: ['stealth-addresses', 'privacy', 'solana', 'beginners', 'encrypt-trade']
 draft: false
 author: 'rector'

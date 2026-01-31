@@ -2,7 +2,7 @@
 title: 'viewing keys: how to be private AND compliant'
 description: 'privacy doesnt mean hiding from everyone forever. viewing keys let you choose who sees what.'
 pubDate: 'Jan 31 2026'
-category: 'education'
+category: 'tutorials'
 tags: ['viewing-keys', 'compliance', 'privacy', 'beginners', 'encrypt-trade']
 draft: false
 author: 'rector'
