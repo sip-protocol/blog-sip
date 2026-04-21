@@ -19,7 +19,7 @@
     "@astrojs/sitemap": "^3.7.0",
     "@tailwindcss/vite": "^4.1.18",
     "@vercel/og": "^0.8.6",
-    "astro": "^5.17.1",
+    "astro": "^6.1.6",
     "astro-og-canvas": "^0.10.1",
     "canvaskit-wasm": "^0.40.0",
     "rehype-autolink-headings": "^7.1.0",
