@@ -24,7 +24,7 @@ relatedPosts:
 
 Sipher Vault is now open for public testing on Solana devnet.
 
-This post covers what the vault does, why it exists as a distinct primitive from the underlying stealth address and commitment scheme, how the deposit-to-claim flow works at the instruction level, and the exact criteria that gate the subsequent mainnet deployment. If you are evaluating Solana privacy infrastructure or want to stress-test the system before it handles real funds, this is for you.
+This post covers what the vault does, why it exists as a distinct primitive from the underlying stealth address and commitment scheme, how the deposit-to-claim flow works at the instruction level, and the exact criteria that gate the subsequent mainnet deployment.
 
 ---
 
@@ -141,7 +141,7 @@ The gate requires all of the following:
 - **Withdrawal coverage:** At least 3 successful `withdraw_private` calls from at least 2 distinct non-team wallets
 - **Refund coverage:** At least 1 successful `authority_refund` — the Phase 3 SENTINEL refund evidence already satisfies this criterion. The refund TX `4YHpsgZpXhvYd9EsCRBjfkhUDgGGitAM3R4gu9EqivtKwMRtamkMN2BUumdZTPbaRt3sQb4mp8QW2YFVZJ2EnYDz` ([Solscan devnet](https://solscan.io/tx/4YHpsgZpXhvYd9EsCRBjfkhUDgGGitAM3R4gu9EqivtKwMRtamkMN2BUumdZTPbaRt3sQb4mp8QW2YFVZJ2EnYDz?cluster=devnet)) confirms the SENTINEL-gated authority refund path works end-to-end. The Phase 3 evidence is committed at `docs/sentinel/evidence/devnet-refund-2026-05-05.json`.
 - **Zero unexplained reverts:** Any revert that cannot be classified as user error within one hour of a human reviewing the failed TX invalidates the gate
-- **Zero authority interventions:** No `set_paused`, no manual fee adjustments, no state corrections from the authority side during the soak window
+- **Zero authority interventions:** No `set_paused`, no manual fee adjustments, no cleanup transactions from the authority side
 
 SENTINEL — documented at https://docs.sip-protocol.org/sipher/sentinel/overview/ — monitors vault state and classifies anomalies in real time. Its advisory mode is live on the current VPS deployment. The gate-check script queries SENTINEL's classification log as part of the "zero unexplained reverts" check.
 
