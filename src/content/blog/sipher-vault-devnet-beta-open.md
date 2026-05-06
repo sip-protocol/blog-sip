@@ -3,7 +3,17 @@ title: 'Sipher Vault: Devnet Beta is Open'
 description: 'Solana privacy primitive in public devnet beta — break sender-to-stealth-recipient correlation via authority-signed CPI to sip_privacy.'
 pubDate: 'May 6 2026'
 category: 'announcements'
-tags: ['sipher', 'vault', 'solana', 'privacy', 'devnet', 'beta', 'cpi', 'stealth-addresses']
+tags:
+  [
+    'sipher',
+    'vault',
+    'solana',
+    'privacy',
+    'devnet',
+    'beta',
+    'cpi',
+    'stealth-addresses',
+  ]
 draft: false
 author: 'SIP Protocol Team'
 tldr: 'Sipher Vault devnet beta is open. It closes the sender-side privacy gap stealth addresses alone cannot fix — authority-signed CPI to sip_privacy breaks the on-chain link between sender wallet and stealth recipient.'
@@ -46,8 +56,8 @@ When a wallet sends tokens directly to a stealth address — even a correctly de
 
 The vault closes that gap. By interposing an authority between sender and recipient:
 
-- The sender's transaction goes *into* the vault, not to the recipient
-- The authority's transaction goes *from* the vault to the stealth recipient
+- The sender's transaction goes _into_ the vault, not to the recipient
+- The authority's transaction goes _from_ the vault to the stealth recipient
 - The on-chain trace shows: sender → vault; vault → stealth ATA
 - There is no direct sender → recipient edge in the TX graph
 
@@ -66,6 +76,7 @@ The flow, step by step:
 **1. Deposit.** The user calls `vault.deposit(amount)`. The vault creates a `DepositRecord` PDA seeded from `[b"deposit", user_pubkey, mint, nonce]`. The PDA stores the deposited amount, the collected fee (computed at `fee_bps = 10` of amount), and the deposit timestamp. Tokens move from the user's ATA to the vault's ATA for that mint.
 
 **2. Authority-signed withdrawal.** The authority — a separate keypair from the sender — calls `vault.withdraw_private`. This instruction:
+
 - Verifies the `DepositRecord` is not yet claimed
 - Computes the net amount after fee deduction
 - Transfers tokens from the vault ATA to the stealth recipient's ATA (using `CreateIdempotent` + `TransferChecked`)
@@ -85,17 +96,17 @@ The `DepositRecord` and `VaultConfig` PDAs live on the vault program. The `trans
 
 The vault has 9 instructions across three signer roles: deploy-time bootstrap (called once per cluster), user actions, and authority operations.
 
-| Instruction | Signer | Description |
-|---|---|---|
-| `initialize` | Deploy authority | Creates the `VaultConfig` PDA: fee bps, refund timeout, authority pubkey. Called once at program deployment. |
-| `create_vault_token` | Authority | Initializes a vault-side ATA for a given mint before any deposits of that token can be accepted. |
-| `create_fee_token` | Authority | Initializes the fee-collection ATA for a given mint. |
-| `deposit` | User | User deposits SPL tokens; creates a `DepositRecord` PDA holding deposit metadata, fee, and timestamp. |
-| `withdraw_private` | Authority | Transfers to stealth recipient ATA and CPIs into `sip_privacy.create_transfer_announcement` to create the on-chain transfer record. Emits `VaultWithdrawEvent`. |
-| `refund` | User | User reclaims their deposit after the 24-hour refund timeout has elapsed. Available if the authority has not yet issued `withdraw_private`. |
-| `authority_refund` | Authority | Authority refunds a deposit on the user's behalf. The 24-hour timeout applies equally — it is not bypassed for the authority. |
-| `collect_fee` | Authority | Authority collects accumulated fees from the fee ATA. |
-| `set_paused` | Authority | Pauses or unpauses the program. When paused, `deposit` returns `ProgramPaused (0x1770)`. Emits `VaultPausedEvent { authority, paused, timestamp }` for off-chain monitoring. |
+| Instruction          | Signer           | Description                                                                                                                                                                  |
+| -------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `initialize`         | Deploy authority | Creates the `VaultConfig` PDA: fee bps, refund timeout, authority pubkey. Called once at program deployment.                                                                 |
+| `create_vault_token` | Authority        | Initializes a vault-side ATA for a given mint before any deposits of that token can be accepted.                                                                             |
+| `create_fee_token`   | Authority        | Initializes the fee-collection ATA for a given mint.                                                                                                                         |
+| `deposit`            | User             | User deposits SPL tokens; creates a `DepositRecord` PDA holding deposit metadata, fee, and timestamp.                                                                        |
+| `withdraw_private`   | Authority        | Transfers to stealth recipient ATA and CPIs into `sip_privacy.create_transfer_announcement` to create the on-chain transfer record. Emits `VaultWithdrawEvent`.              |
+| `refund`             | User             | User reclaims their deposit after the 24-hour refund timeout has elapsed. Available if the authority has not yet issued `withdraw_private`.                                  |
+| `authority_refund`   | Authority        | Authority refunds a deposit on the user's behalf. The 24-hour timeout applies equally — it is not bypassed for the authority.                                                |
+| `collect_fee`        | Authority        | Authority collects accumulated fees from the fee ATA.                                                                                                                        |
+| `set_paused`         | Authority        | Pauses or unpauses the program. When paused, `deposit` returns `ProgramPaused (0x1770)`. Emits `VaultPausedEvent { authority, paused, timestamp }` for off-chain monitoring. |
 
 The `set_paused` instruction, combined with SENTINEL — the LLM-backed security analyst that monitors vault state — gives the authority a tested emergency lever. The pause mechanism was exercised during Phase 3 rehearsal: deposit-during-pause correctly reverts with `ProgramPaused 0x1770` at `lib.rs:92`, and the vault returned to live state in under 20 seconds.
 
