@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-labelledby="vault-diagram-title">
+  <title id="vault-diagram-title">Sipher Vault: deposit → withdraw_private → CPI → claim flow</title>
+  <defs>
+    <linearGradient id="vaultGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="sipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0ea5e9"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bgGrad)" rx="12"/>
+  <rect width="800" height="500" fill="none" stroke="#2d2d4e" stroke-width="1" rx="12"/>
+
+  <!-- Title -->
+  <text x="400" y="32" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#a5b4fc" letter-spacing="0.05em">SIPHER VAULT — DEPOSIT / WITHDRAW / CLAIM FLOW</text>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- LEFT: Sender Wallet -->
+  <!-- ══════════════════════════════════════════ -->
+  <rect x="20" y="180" width="130" height="80" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="85" y="214" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" font-weight="700" fill="#c7d2fe">Sender</text>
+  <text x="85" y="230" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" font-weight="700" fill="#c7d2fe">Wallet</text>
+  <!-- wallet icon paths -->
+  <rect x="66" y="238" width="38" height="12" rx="2" fill="none" stroke="#6366f1" stroke-width="1.2"/>
+  <rect x="78" y="235" width="14" height="4" rx="1" fill="#6366f1"/>
+  <circle cx="79" cy="244" r="2" fill="#6366f1"/>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- CENTER: Sipher Vault box (tall) -->
+  <!-- ══════════════════════════════════════════ -->
+  <rect x="200" y="60" width="260" height="370" rx="10" fill="#12122a" stroke="#6366f1" stroke-width="2"/>
+  <rect x="200" y="60" width="260" height="40" rx="10" fill="url(#vaultGrad)"/>
+  <rect x="200" y="88" width="260" height="12" rx="0" fill="url(#vaultGrad)"/>
+  <text x="330" y="87" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#ffffff" filter="url(#glow)">SIPHER VAULT</text>
+  <text x="330" y="107" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" fill="#a5b4fc">S1Phr5rmDfkZTyLXzH5qUHeiqZS3Uf517SQzRbU4kHB</text>
+
+  <!-- VaultConfig PDA sub-box -->
+  <rect x="218" y="122" width="224" height="52" rx="6" fill="#1e1b4b" stroke="#4338ca" stroke-width="1"/>
+  <text x="330" y="142" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="600" fill="#a5b4fc">VaultConfig PDA</text>
+  <text x="330" y="157" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#6366f1">fee_bps=10  refund_timeout=86400s</text>
+  <text x="330" y="170" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#6366f1">paused=false</text>
+
+  <!-- DepositRecord PDA sub-box -->
+  <rect x="218" y="186" width="224" height="62" rx="6" fill="#1e1b4b" stroke="#7c3aed" stroke-width="1"/>
+  <text x="330" y="206" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="600" fill="#c4b5fd">DepositRecord PDA</text>
+  <text x="330" y="221" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#8b5cf6">seeds: [b"deposit", user, mint, nonce]</text>
+  <text x="330" y="235" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#8b5cf6">amount, fee_collected, timestamp</text>
+  <text x="330" y="248" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#64748b">refund available after 24h if unclaimed</text>
+
+  <!-- Authority signs withdraw_private section -->
+  <rect x="218" y="262" width="224" height="70" rx="6" fill="#0f1a2e" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="330" y="282" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="600" fill="#7dd3fc">Authority Signs</text>
+  <text x="330" y="296" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="600" fill="#7dd3fc">withdraw_private</text>
+  <text x="330" y="312" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#0ea5e9">NOT the sender — separate keypair</text>
+  <text x="330" y="325" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#0ea5e9">breaks sender-recipient link on-chain</text>
+
+  <!-- CPI arrow inside vault pointing down to sip_privacy -->
+  <line x1="330" y1="342" x2="330" y2="388" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGreen)"/>
+  <text x="356" y="368" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#10b981">CPI</text>
+
+  <!-- sip_privacy CPI call sub-box -->
+  <rect x="218" y="390" width="224" height="30" rx="6" fill="#0d1f16" stroke="#10b981" stroke-width="1"/>
+  <text x="330" y="406" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" font-weight="600" fill="#34d399">create_transfer_announcement</text>
+  <text x="330" y="419" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="8.5" fill="#6ee7b7">creates transfer_record PDA in sip_privacy</text>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- BOTTOM-CENTER: sip_privacy program -->
+  <!-- ══════════════════════════════════════════ -->
+  <rect x="230" y="446" width="200" height="42" rx="8" fill="#0d1f16" stroke="#10b981" stroke-width="1.5"/>
+  <text x="330" y="464" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" font-weight="700" fill="#10b981">sip_privacy program</text>
+  <text x="330" y="479" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="8.5" fill="#6ee7b7">S1PMFspo4W6BYKHWkHNF7kZ3fnqibEXg3LQjxepS9at</text>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- RIGHT: Stealth Recipient ATA + Recipient Wallet -->
+  <!-- ══════════════════════════════════════════ -->
+  <!-- Stealth ATA -->
+  <rect x="580" y="155" width="140" height="65" rx="8" fill="#1a1a2e" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="650" y="179" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="600" fill="#c4b5fd">Stealth</text>
+  <text x="650" y="194" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="600" fill="#c4b5fd">Recipient ATA</text>
+  <text x="650" y="211" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="8.5" fill="#7c3aed">one-time address — not linked to sender</text>
+
+  <!-- Recipient Wallet (claim) -->
+  <rect x="590" y="280" width="120" height="70" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="650" y="308" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c7d2fe">Recipient</text>
+  <text x="650" y="323" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#a5b4fc">scans with viewing key</text>
+  <text x="650" y="337" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#a5b4fc">calls claim</text>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- ARROWS -->
+  <!-- ══════════════════════════════════════════ -->
+
+  <!-- 1. Sender → Vault: deposit(amount) -->
+  <line x1="152" y1="220" x2="196" y2="220" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <rect x="150" y="195" width="50" height="18" rx="3" fill="#0f0f1a"/>
+  <text x="175" y="206" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#818cf8">deposit</text>
+  <text x="175" y="217" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="8.5" fill="#6366f1">(amount)</text>
+
+  <!-- 2. Vault → Stealth ATA: withdraw_private -->
+  <line x1="462" y1="295" x2="577" y2="225" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <rect x="476" y="260" width="80" height="28" rx="3" fill="#0f0f1a"/>
+  <text x="516" y="274" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" font-weight="600" fill="#7dd3fc">withdraw_</text>
+  <text x="516" y="285" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" font-weight="600" fill="#7dd3fc">private</text>
+
+  <!-- 3. Stealth ATA → Recipient (claim) -->
+  <line x1="650" y1="220" x2="650" y2="278" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowGray)"/>
+  <text x="660" y="254" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9.5" fill="#8b5cf6">claim</text>
+
+  <!-- 4. sip_privacy ← CPI (from vault/withdraw_private, vertical line from bottom of vault box) -->
+  <!-- Arrow from sip_privacy sub-box (bottom of vault) down to the sip_privacy program rect -->
+  <line x1="330" y1="422" x2="330" y2="444" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- PRIVACY GUARANTEE ANNOTATION -->
+  <!-- ══════════════════════════════════════════ -->
+  <rect x="20" y="370" width="158" height="68" rx="6" fill="#0d1a0d" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="99" y="390" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" font-weight="700" fill="#34d399">Privacy Guarantee</text>
+  <text x="99" y="406" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#6ee7b7">Sender wallet and recipient</text>
+  <text x="99" y="419" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#6ee7b7">viewing key are NEVER</text>
+  <text x="99" y="432" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#6ee7b7">directly linked on-chain</text>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- LEGEND -->
+  <!-- ══════════════════════════════════════════ -->
+  <rect x="580" y="375" width="200" height="100" rx="6" fill="#12122a" stroke="#2d2d4e" stroke-width="1"/>
+  <text x="680" y="393" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" font-weight="700" fill="#94a3b8">Legend</text>
+  <line x1="593" y1="405" x2="620" y2="405" stroke="#6366f1" stroke-width="2"/>
+  <text x="627" y="409" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#a5b4fc">User action</text>
+  <line x1="593" y1="421" x2="620" y2="421" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="627" y="425" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#a5b4fc">Authority action</text>
+  <line x1="593" y1="437" x2="620" y2="437" stroke="#10b981" stroke-width="2"/>
+  <text x="627" y="441" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#a5b4fc">CPI (cross-program)</text>
+  <line x1="593" y1="453" x2="620" y2="453" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="627" y="457" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#a5b4fc">Recipient action</text>
+  <line x1="593" y1="469" x2="620" y2="469" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="627" y="473" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#a5b4fc">Authority-only zone</text>
+</svg>
