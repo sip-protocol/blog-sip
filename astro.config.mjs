@@ -8,13 +8,19 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
 import node from '@astrojs/node'
+import vercel from '@astrojs/vercel'
+
+// Vercel sets VERCEL=1 during its builds. There we use the Vercel adapter
+// (prerenders the static routes and compiles the /api/newsletter endpoint into a
+// serverless function). Everywhere else — local dev and the VPS Docker image built
+// by deploy.yml — we keep the Node standalone server so the VPS remains a working
+// rollback target during the DNS cutover window.
+const adapter = process.env.VERCEL ? vercel() : node({ mode: 'standalone' })
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://blog.sip-protocol.org',
-  adapter: node({
-    mode: 'standalone',
-  }),
+  adapter,
 
   integrations: [
     mdx({

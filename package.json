@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npx pagefind --site dist",
+    "build": "astro build && npx pagefind --site dist/client",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
@@ -17,6 +17,7 @@
     "@astrojs/node": "^9.5.2",
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/vercel": "^9.0.5",
     "@tailwindcss/vite": "^4.1.18",
     "@vercel/og": "^0.8.6",
     "astro": "^5.17.1",
