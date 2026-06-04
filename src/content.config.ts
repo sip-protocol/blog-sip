@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content'
+import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
+import { z } from 'astro/zod'
 
 /**
  * Blog post categories - main content pillars
@@ -37,7 +38,7 @@ const blog = defineCollection({
       authorTwitter: z.string().optional(),
 
       // SEO
-      canonicalUrl: z.string().url().optional(),
+      canonicalUrl: z.url().optional(),
       noIndex: z.boolean().default(false),
 
       // LLMO (LLM Optimization)
