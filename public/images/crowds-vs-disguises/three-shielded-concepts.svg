@@ -1,0 +1,174 @@
+<svg width="1400" height="1380" viewBox="0 0 1400 1380" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Stealth addresses, Pedersen commitments, and timing correlation explained with analogies">
+  <defs>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/>
+    </marker>
+    <marker id="arr-violet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a78bfa"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="1380" fill="#0d1117"/>
+
+  <!-- ===== HEADER ===== -->
+  <text x="700" y="54" text-anchor="middle" font-size="28" font-weight="700" fill="#e6edf3">3 Concepts Behind Shielded Transfers — the simple version</text>
+  <text x="700" y="84" text-anchor="middle" font-size="14.5" fill="#9da7b3">stealth addresses · pedersen commitments · timing — companion to “Crowds vs. Disguises”</text>
+
+  <!-- ============ CARD 1 · STEALTH ADDRESS ============ -->
+  <rect x="36" y="108" width="1328" height="388" rx="14" fill="#161b22" stroke="#30363d"/>
+  <rect x="56" y="108" width="1288" height="4" rx="2" fill="#a78bfa"/>
+  <text x="60" y="152" font-size="19" font-weight="700" fill="#a78bfa">1 · STEALTH ADDRESS</text>
+  <text x="310" y="152" font-size="13" fill="#9da7b3">— a new mailbox for every package</text>
+
+  <rect x="60" y="172" width="520" height="104" rx="10" fill="#a78bfa" fill-opacity="0.07" stroke="#a78bfa" stroke-opacity="0.35"/>
+  <text x="76" y="190" font-size="10" font-weight="700" letter-spacing="1.5" fill="#a78bfa">ANALOGY</text>
+  <text x="76" y="210" font-size="13" fill="#c9d1d9">you publish one master address. every time someone sends,</text>
+  <text x="76" y="229" font-size="13" fill="#c9d1d9">the system creates a BRAND-NEW mailbox that only your</text>
+  <text x="76" y="248" font-size="13" fill="#c9d1d9">master key can open. outsiders see thousands of random</text>
+  <text x="76" y="267" font-size="13" fill="#c9d1d9">boxes — no way to tell whose is whose.</text>
+
+  <circle cx="68" cy="304" r="3" fill="#a78bfa"/>
+  <text x="84" y="308" font-size="13.5" fill="#c9d1d9">1 public meta-address → every payment gets a fresh one-time address</text>
+  <circle cx="68" cy="334" r="3" fill="#a78bfa"/>
+  <text x="84" y="338" font-size="13.5" fill="#c9d1d9">no address reuse → addresses can't be linked to each other</text>
+  <circle cx="68" cy="364" r="3" fill="#a78bfa"/>
+  <text x="84" y="368" font-size="13.5" fill="#c9d1d9">only your private key can detect + claim all of them</text>
+  <circle cx="68" cy="394" r="3" fill="#a3e635"/>
+  <text x="84" y="398" font-size="13.5" fill="#a3e635">like rotating wallets — but standardized, and the sender derives them</text>
+
+  <rect x="640" y="196" width="160" height="48" rx="8" fill="#0d1117" stroke="#a78bfa"/>
+  <text x="720" y="216" text-anchor="middle" font-size="13" fill="#e6edf3">meta-address</text>
+  <text x="720" y="233" text-anchor="middle" font-size="10.5" fill="#9da7b3">(public, published once)</text>
+
+  <text x="868" y="166" text-anchor="middle" font-size="11" fill="#9da7b3">+ random ephemeral key (new per payment)</text>
+  <line x1="800" y1="212" x2="936" y2="198" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arr-violet)"/>
+  <line x1="800" y1="220" x2="936" y2="268" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arr-violet)"/>
+  <line x1="800" y1="228" x2="936" y2="338" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arr-violet)"/>
+
+  <rect x="940" y="176" width="170" height="44" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="1025" y="195" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#e6edf3">7xK4…Qf3a</text>
+  <text x="1025" y="211" text-anchor="middle" font-size="10" fill="#9da7b3">payment #1</text>
+  <rect x="940" y="246" width="170" height="44" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="1025" y="265" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#e6edf3">9mQ2…Lw8d</text>
+  <text x="1025" y="281" text-anchor="middle" font-size="10" fill="#9da7b3">payment #2</text>
+  <rect x="940" y="316" width="170" height="44" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="1025" y="335" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#e6edf3">3vF8…Zn5c</text>
+  <text x="1025" y="351" text-anchor="middle" font-size="10" fill="#9da7b3">payment #3</text>
+
+  <rect x="640" y="330" width="160" height="40" rx="8" fill="#0d1117" stroke="#a78bfa"/>
+  <text x="720" y="355" text-anchor="middle" font-size="12.5" fill="#a78bfa">your private key</text>
+  <line x1="800" y1="344" x2="936" y2="212" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.6"/>
+  <line x1="800" y1="350" x2="936" y2="276" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.6"/>
+  <line x1="800" y1="356" x2="936" y2="344" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.6"/>
+  <text x="640" y="392" font-size="11" fill="#a78bfa">detects + claims ALL of the boxes</text>
+
+  <text x="1140" y="240" font-size="12" font-weight="700" fill="#9da7b3">an observer sees:</text>
+  <text x="1140" y="260" font-size="12" fill="#9da7b3">3 random addresses —</text>
+  <text x="1140" y="278" font-size="12" fill="#9da7b3">no visible connection</text>
+
+  <!-- ============ CARD 2 · PEDERSEN COMMITMENT ============ -->
+  <rect x="36" y="516" width="1328" height="388" rx="14" fill="#161b22" stroke="#30363d"/>
+  <rect x="56" y="516" width="1288" height="4" rx="2" fill="#58a6ff"/>
+  <text x="60" y="560" font-size="19" font-weight="700" fill="#58a6ff">2 · PEDERSEN COMMITMENT</text>
+  <text x="360" y="560" font-size="13" fill="#9da7b3">— a tamper-proof sealed envelope</text>
+
+  <rect x="60" y="580" width="520" height="104" rx="10" fill="#58a6ff" fill-opacity="0.07" stroke="#58a6ff" stroke-opacity="0.35"/>
+  <text x="76" y="598" font-size="10" font-weight="700" letter-spacing="1.5" fill="#58a6ff">ANALOGY</text>
+  <text x="76" y="618" font-size="13" fill="#c9d1d9">write the amount on paper → seal it in an envelope.</text>
+  <text x="76" y="637" font-size="13" fill="#c9d1d9">others only see the envelope (hiding). you can't swap</text>
+  <text x="76" y="656" font-size="13" fill="#c9d1d9">the contents after sealing (binding). the magic: two</text>
+  <text x="76" y="675" font-size="13" fill="#c9d1d9">envelopes can be added WITHOUT opening them (homomorphic).</text>
+
+  <circle cx="68" cy="712" r="3" fill="#58a6ff"/>
+  <text x="84" y="716" font-size="13.5" fill="#c9d1d9">hiding: the amount never appears in the announcement</text>
+  <circle cx="68" cy="742" r="3" fill="#58a6ff"/>
+  <text x="84" y="746" font-size="13.5" fill="#c9d1d9">binding: once committed, it can't be quietly changed</text>
+  <circle cx="68" cy="772" r="3" fill="#58a6ff"/>
+  <text x="84" y="776" font-size="13.5" fill="#c9d1d9">homomorphic: totals verify without opening individual amounts</text>
+  <circle cx="68" cy="802" r="3" fill="#a78bfa"/>
+  <text x="84" y="806" font-size="13.5" fill="#a78bfa">viewing key = the official envelope opener → for auditors/CEXs</text>
+
+  <rect x="640" y="604" width="140" height="40" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="710" y="629" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#e6edf3">100 SOL</text>
+  <rect x="640" y="664" width="140" height="40" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="710" y="689" text-anchor="middle" font-size="11.5" font-family="ui-monospace, Menlo, monospace" fill="#c9d1d9">blinding r (random)</text>
+  <line x1="780" y1="624" x2="826" y2="646" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+  <line x1="780" y1="684" x2="826" y2="662" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <rect x="830" y="624" width="120" height="60" rx="10" fill="#58a6ff" fill-opacity="0.1" stroke="#58a6ff"/>
+  <text x="890" y="652" text-anchor="middle" font-size="14" font-weight="700" fill="#58a6ff">SEAL</text>
+  <text x="890" y="670" text-anchor="middle" font-size="10.5" fill="#9da7b3">(commit)</text>
+  <line x1="950" y1="654" x2="1006" y2="654" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <rect x="1010" y="624" width="220" height="60" rx="8" fill="#0d1117" stroke="#58a6ff"/>
+  <text x="1120" y="650" text-anchor="middle" font-size="13.5" font-family="ui-monospace, Menlo, monospace" fill="#e6edf3">C = 0x02ab…f3</text>
+  <text x="1120" y="670" text-anchor="middle" font-size="10.5" fill="#9da7b3">(all the public ever sees)</text>
+
+  <text x="640" y="740" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#58a6ff">C = amount·G + blinding·H</text>
+
+  <rect x="640" y="772" width="76" height="36" rx="6" fill="#0d1117" stroke="#30363d"/>
+  <text x="678" y="795" text-anchor="middle" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#c9d1d9">C1</text>
+  <text x="732" y="796" font-size="16" fill="#9da7b3">+</text>
+  <rect x="756" y="772" width="76" height="36" rx="6" fill="#0d1117" stroke="#30363d"/>
+  <text x="794" y="795" text-anchor="middle" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#c9d1d9">C2</text>
+  <text x="848" y="796" font-size="16" fill="#9da7b3">=</text>
+  <rect x="872" y="772" width="120" height="36" rx="6" fill="#0d1117" stroke="#30363d"/>
+  <text x="932" y="795" text-anchor="middle" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#c9d1d9">C1+C2</text>
+  <text x="1010" y="795" font-size="12" fill="#3fb950">✓ the total verifies without opening either one</text>
+
+  <text x="640" y="850" font-size="11.5" fill="#9da7b3">observers see the seal — never the number</text>
+
+  <!-- ============ CARD 3 · TIMING ============ -->
+  <rect x="36" y="924" width="1328" height="388" rx="14" fill="#161b22" stroke="#30363d"/>
+  <rect x="56" y="924" width="1288" height="4" rx="2" fill="#e3b341"/>
+  <text x="60" y="968" font-size="19" font-weight="700" fill="#e3b341">3 · TIMING CORRELATION</text>
+  <text x="340" y="968" font-size="13" fill="#9da7b3">— CCTV doesn't need your face on an empty street</text>
+
+  <rect x="60" y="988" width="520" height="104" rx="10" fill="#e3b341" fill-opacity="0.07" stroke="#e3b341" stroke-opacity="0.35"/>
+  <text x="76" y="1006" font-size="10" font-weight="700" letter-spacing="1.5" fill="#e3b341">ANALOGY</text>
+  <text x="76" y="1026" font-size="13" fill="#c9d1d9">one person enters building A at 03:00, one person exits</text>
+  <text x="76" y="1045" font-size="13" fill="#c9d1d9">building B at 03:05 — CCTV doesn't need a face to guess</text>
+  <text x="76" y="1064" font-size="13" fill="#c9d1d9">they're the same person. a disguise doesn't help here;</text>
+  <text x="76" y="1083" font-size="13" fill="#c9d1d9">what helps: a crowd + random timing.</text>
+
+  <circle cx="68" cy="1120" r="3" fill="#e3b341"/>
+  <text x="84" y="1124" font-size="13.5" fill="#c9d1d9">the threat: deposit &amp; withdraw close in time → matched by pattern</text>
+  <circle cx="68" cy="1150" r="3" fill="#e3b341"/>
+  <text x="84" y="1154" font-size="13.5" fill="#c9d1d9">mixers fix this with the pool's crowd; shielded needs concurrent txs</text>
+  <circle cx="68" cy="1180" r="3" fill="#e3b341"/>
+  <text x="84" y="1184" font-size="13.5" fill="#c9d1d9">every young shielded system is quiet at first → jitter + splits are a must</text>
+  <circle cx="68" cy="1210" r="3" fill="#a3e635"/>
+  <text x="84" y="1214" font-size="13.5" fill="#a3e635">more volume → bigger crowd → correlation gets harder</text>
+
+  <text x="640" y="1006" font-size="12" fill="#a3e635">what apps should do: random delays + splits + round amounts ✓</text>
+
+  <line x1="640" y1="1140" x2="1320" y2="1140" stroke="#30363d" stroke-width="2"/>
+
+  <path d="M 700 1140 Q 745 1092 790 1140" fill="none" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <path d="M 700 1140 Q 890 1038 1080 1140" fill="none" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+  <circle cx="700" cy="1140" r="7" fill="#e3b341"/>
+  <text x="700" y="1112" text-anchor="middle" font-size="12" fill="#e3b341">deposit</text>
+  <text x="700" y="1166" text-anchor="middle" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#9da7b3">10:00</text>
+
+  <circle cx="790" cy="1140" r="6" fill="#f85149"/>
+  <text x="790" y="1166" text-anchor="middle" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#f85149">10:01 ✗</text>
+  <text x="790" y="1183" text-anchor="middle" font-size="10.5" fill="#f85149">matched</text>
+
+  <circle cx="1080" cy="1140" r="7" fill="#3fb950"/>
+  <text x="890" y="1062" text-anchor="middle" font-size="11.5" fill="#3fb950">random delay (jitter)</text>
+  <text x="1080" y="1166" text-anchor="middle" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#3fb950">16:43 ✓</text>
+  <text x="1080" y="1183" text-anchor="middle" font-size="10.5" fill="#3fb950">+ split 3× at different times</text>
+
+  <circle cx="950" cy="1140" r="4" fill="#6e7681"/>
+  <circle cx="1000" cy="1140" r="4" fill="#6e7681"/>
+  <circle cx="1170" cy="1140" r="4" fill="#6e7681"/>
+  <circle cx="1230" cy="1140" r="4" fill="#6e7681"/>
+  <circle cx="1280" cy="1140" r="4" fill="#6e7681"/>
+  <text x="1115" y="1216" text-anchor="middle" font-size="11" fill="#9da7b3">gray dots = other people's txs — the busier, the safer</text>
+
+  <text x="700" y="1348" text-anchor="middle" font-size="12" fill="#6e7681">infographic #2 — companion to “Crowds vs. Disguises” · SIP Protocol · sip-protocol.org</text>
+</svg>
