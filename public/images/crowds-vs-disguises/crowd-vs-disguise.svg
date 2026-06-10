@@ -126,5 +126,5 @@
   <line x1="462" y1="777" x2="482" y2="777" stroke="#a3e635" stroke-width="2" marker-end="url(#arr-lime)"/>
   <line x1="888" y1="777" x2="908" y2="777" stroke="#a3e635" stroke-width="2" marker-end="url(#arr-lime)"/>
 
-  <text x="700" y="896" text-anchor="middle" font-size="12" fill="#6e7681">SIP Protocol · blog.sip-protocol.org · sip-protocol.org</text>
+  <text x="700" y="896" text-anchor="middle" font-size="12" fill="#8b949e">SIP Protocol · blog.sip-protocol.org · sip-protocol.org</text>
 </svg>
