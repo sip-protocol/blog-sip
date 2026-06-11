@@ -359,8 +359,8 @@ SIP's approach avoids these pool-specific risks:
 | Small anonymity set | Vulnerable | Not applicable (no pool) |
 | Pool fragmentation | Vulnerable | Not applicable |
 | Time degradation | Vulnerable | Not applicable |
-| Graph analysis | Partially vulnerable | Stealth addresses break graphs |
-| Timing attacks | Requires artificial delays | No entry/exit timing |
+| Graph analysis | Partially vulnerable | Stealth addresses unlink identity; transfer hops remain visible |
+| Timing attacks | Requires artificial delays | No pool entry/exit, but low-volume timing needs app-layer jitter |
 | Amount correlation | Statistical defense | Cryptographic defense |
 
 The fundamental difference: SIP's privacy is **deterministic** (guaranteed by cryptography), while pool mixing privacy is **probabilistic** (depends on usage patterns).
