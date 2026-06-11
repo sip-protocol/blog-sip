@@ -2,7 +2,7 @@
 title: 'SIP vs Pool Mixing: The Cryptographic Difference'
 description: 'Pedersen commitments vs pool mixing: why math-based privacy beats crowd-based anonymity. Comparing SIP, Tornado Cash, and Privacy Cash.'
 pubDate: 'Jan 05 2026'
-updatedDate: 'Jun 10 2026'
+updatedDate: 'Jun 11 2026'
 category: 'technical'
 tags: ['privacy', 'pedersen-commitments', 'tornado-cash', 'privacy-cash', 'cryptography', 'comparison']
 draft: false
@@ -110,7 +110,7 @@ Let's be honest about what actually differentiates these approaches:
 
 Pool mixing: Your privacy depends on pool participation. Early pools or unusual amounts have weaker guarantees.
 
-Pedersen: Privacy is cryptographically guaranteed regardless of how many others use the system. 1.5 SOL and 1,000,000 SOL have identical privacy properties.
+Pedersen: Identity and amount privacy are cryptographically guaranteed regardless of how many others use the system. 1.5 SOL and 1,000,000 SOL have identical privacy properties.
 
 ### 2. Homomorphic Properties
 
@@ -157,7 +157,7 @@ The implementations differ, but both acknowledge that "hide everything forever" 
 | Compliance | Selective disclosure | Viewing keys |
 | Homomorphic proofs | No | Yes |
 | Chain support | Single chain | Chain-agnostic |
-| Pool dependency | Yes - privacy scales with usage | No - constant guarantees |
+| Pool dependency | Yes - privacy scales with usage | No - constant identity and amount guarantees |
 | Stealth addresses | No | Yes (EIP-5564) |
 
 ## Amount Correlation Attacks Explained
@@ -257,7 +257,7 @@ For a fuller treatment of which privacy axes each model actually covers - includ
 **Pedersen Commitments (SIP)** excels when:
 - You need provable amount properties (range proofs, balance verification)
 - You're building cross-chain applications
-- You need privacy guarantees independent of adoption
+- You need identity and amount guarantees independent of adoption
 - You want stealth addresses for recipient privacy
 
 ## Security Analysis: Pool Mixing Risks

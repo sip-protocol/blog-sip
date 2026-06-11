@@ -137,7 +137,7 @@
   <circle cx="68" cy="1120" r="3" fill="#e3b341"/>
   <text x="84" y="1124" font-size="13.5" fill="#c9d1d9">the threat: deposit &amp; withdraw close in time → matched by pattern</text>
   <circle cx="68" cy="1150" r="3" fill="#e3b341"/>
-  <text x="84" y="1154" font-size="13.5" fill="#c9d1d9">mixers fix this with the pool's crowd; shielded needs concurrent txs</text>
+  <text x="84" y="1154" font-size="13.5" fill="#c9d1d9">mixers blunt this with the pool's crowd; shielded needs concurrent txs</text>
   <circle cx="68" cy="1180" r="3" fill="#e3b341"/>
   <text x="84" y="1184" font-size="13.5" fill="#c9d1d9">every young shielded system is quiet at first → jitter + splits are a must</text>
   <circle cx="68" cy="1210" r="3" fill="#a3e635"/>

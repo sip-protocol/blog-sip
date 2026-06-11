@@ -1,7 +1,7 @@
 ---
 title: 'Crowds vs. Disguises: The Two Ways to Be Private On-Chain'
 description: 'Mixers hide you in a crowd; shielded transfers give you a disguise. Four axes of on-chain privacy, what each model protects, and the honest gaps.'
-pubDate: 'Jun 10 2026'
+pubDate: 'Jun 11 2026'
 category: 'thought-leadership'
 tags: ['privacy', 'mixers', 'stealth-addresses', 'pedersen-commitments', 'timing-correlation', 'anonymity-set', 'comparison']
 draft: false
@@ -26,7 +26,7 @@ relatedPosts:
 
 There's a particular kind of trader on Solana who has learned to dread being good at their job: the profitable liquidity provider.
 
-Picture one. She's developed real edge on Meteora DLMM pools — which pairs, which bin ranges, when to reposition. Her positions print. And because every transaction on Solana is public, her edge has become a broadcast. Copy-trade feeds index profitable wallets and republish their entries to subscribers in near real time. Within seconds of every position she opens, mirrored capital crowds into her bins, dilutes her fee capture, and front-runs her exits.
+Picture one. She's developed real edge on Solana DLMM pools — which pairs, which bin ranges, when to reposition. Her positions print. And because every transaction on Solana is public, her edge has become a broadcast. Copy-trade feeds index profitable wallets and republish their entries to subscribers in near real time. Within seconds of every position she opens, mirrored capital crowds into her bins, dilutes her fee capture, and front-runs her exits.
 
 Here's the detail most people miss: **the bots never knew who she was.** They didn't need her name, her Twitter, or her KYC file. They followed *where money moved*. Her wallet address was identity enough.
 
@@ -73,13 +73,13 @@ The shielded model (the family SIP belongs to) takes a different bet: instead of
 
 **Stealth addresses — a new mailbox for every package.** You publish one *meta-address*. Anyone who pays you derives, from it plus a random ephemeral key, a brand-new one-time address that only your private key can detect and claim. A hundred payments to you land on a hundred unconnected addresses. There is nothing to reuse, nothing to profile, and the unlinkability holds even if you're the only user on the network — it's math, not crowd cover.
 
-**Pedersen commitments — a tamper-proof sealed envelope.** Amounts are published as commitments: `C = amount·G + blinding·H`. The envelope *hides* (the amount never appears), *binds* (you can't quietly change the contents after sealing), and — the genuinely magical part — commitments are *homomorphic*: envelopes can be added without opening them, so totals verify while individual amounts stay sealed. Two commitments to the identical amount look completely unrelated, which is why amount-matching attacks that work on pools get nothing here.
+**Pedersen commitments — a tamper-proof sealed envelope.** Amounts are published as commitments: `C = amount·G + blinding·H`. The envelope *hides* (the amount never appears in the announcement), *binds* (you can't quietly change the contents after sealing), and — the genuinely magical part — commitments are *homomorphic*: envelopes can be added without opening them, so totals verify while individual amounts stay sealed. Two commitments to the identical amount look completely unrelated, which is why amount-matching attacks that work on pools get nothing here.
 
 **Viewing keys — the official envelope opener.** Because the envelope has a designated opener, you get something a mixer structurally cannot offer: *selective disclosure*. Hand a viewing key to your auditor, your accountant, or an exchange's compliance desk, and they can verify your flows — read-only, no spending power, and nothing revealed to the rest of the world. Privacy that can prove itself clean.
 
 ![Stealth addresses, Pedersen commitments, and timing correlation explained with analogies](/images/crowds-vs-disguises/three-shielded-concepts.svg)
 
-Identity axis: broken cryptographically. Amount axis: broken cryptographically. Both at any volume, from day one.
+Identity axis: broken cryptographically. Amount axis: sealed cryptographically at the announcement layer. Both at any volume, from day one.
 
 So what's the catch?
 
