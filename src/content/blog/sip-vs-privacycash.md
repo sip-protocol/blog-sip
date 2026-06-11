@@ -2,7 +2,7 @@
 title: 'SIP vs Pool Mixing: The Cryptographic Difference'
 description: 'Pedersen commitments vs pool mixing: why math-based privacy beats crowd-based anonymity. Comparing SIP, Tornado Cash, and Privacy Cash.'
 pubDate: 'Jan 05 2026'
-updatedDate: 'Jan 16 2026'
+updatedDate: 'Jun 10 2026'
 category: 'technical'
 tags: ['privacy', 'pedersen-commitments', 'tornado-cash', 'privacy-cash', 'cryptography', 'comparison']
 draft: false
@@ -12,7 +12,7 @@ keyTakeaways:
   - 'Pool mixing privacy depends on anonymity set size; cryptographic privacy is mathematically guaranteed'
   - 'Tornado Nova and Privacy Cash now support arbitrary amounts - but still rely on pool anonymity'
   - 'Amount correlation attacks exploit statistical patterns; Pedersen commitments are cryptographically immune'
-  - 'Pool anonymity sets degrade over time; SIP privacy is constant regardless of adoption'
+  - 'Pool anonymity sets degrade over time; SIP identity and amount guarantees hold at any adoption level — timing still needs app-layer jitter'
   - 'Both SIP and Privacy Cash offer compliance paths, but SIP viewing keys provide finer granularity'
   - 'SIP is chain-agnostic; pool mixers are typically single-chain'
 targetAudience: 'Blockchain developers, security researchers, crypto users comparing privacy solutions'
@@ -239,10 +239,12 @@ Even if Alice and Bob commit to the same amount, their commitments are indisting
 | Attack | Pool Mixing Defense | Pedersen Defense |
 |--------|---------------------|------------------|
 | Amount correlation | Statistical (depends on pool size) | Cryptographic (mathematically hidden) |
-| Timing correlation | Requires delay, reduces UX | Not applicable (no pool entry/exit) |
-| Graph analysis | Breaks with mixing | Not applicable (stealth addresses) |
+| Timing correlation | Mitigated by the pool's crowd (withdrawal delays) | Applies at low volume — mitigate with app-layer jitter |
+| Graph analysis | Broken by the pool (ZK note withdrawal) | Identity unlinked via stealth addresses; the transfer hop itself remains visible |
 
 Pedersen commitments provide **information-theoretic hiding** - even with unlimited computing power and perfect knowledge of the system, the amount cannot be extracted from the commitment alone.
+
+For a fuller treatment of which privacy axes each model actually covers - including an honest look at timing - see [Crowds vs. Disguises: The Two Ways to Be Private On-Chain](/blog/crowds-vs-disguises-onchain-privacy).
 
 ## When to Use What
 
