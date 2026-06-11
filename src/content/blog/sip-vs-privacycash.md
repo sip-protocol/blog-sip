@@ -12,7 +12,7 @@ keyTakeaways:
   - 'Pool mixing privacy depends on anonymity set size; cryptographic privacy is mathematically guaranteed'
   - 'Tornado Nova and Privacy Cash now support arbitrary amounts - but still rely on pool anonymity'
   - 'Amount correlation attacks exploit statistical patterns; Pedersen commitments are cryptographically immune'
-  - 'Pool anonymity sets degrade over time; SIP identity and amount guarantees hold at any adoption level — timing still needs app-layer jitter'
+  - 'Pool anonymity sets degrade over time; SIP identity and amount guarantees hold at any adoption level - timing still needs app-layer jitter'
   - 'Both SIP and Privacy Cash offer compliance paths, but SIP viewing keys provide finer granularity'
   - 'SIP is chain-agnostic; pool mixers are typically single-chain'
 targetAudience: 'Blockchain developers, security researchers, crypto users comparing privacy solutions'
@@ -239,7 +239,7 @@ Even if Alice and Bob commit to the same amount, their commitments are indisting
 | Attack | Pool Mixing Defense | Pedersen Defense |
 |--------|---------------------|------------------|
 | Amount correlation | Statistical (depends on pool size) | Cryptographic (mathematically hidden) |
-| Timing correlation | Mitigated by the pool's crowd (withdrawal delays) | Applies at low volume — mitigate with app-layer jitter |
+| Timing correlation | Mitigated by the pool's crowd (withdrawal delays) | Applies at low volume - mitigate with app-layer jitter |
 | Graph analysis | Broken by the pool (ZK note withdrawal) | Identity unlinked via stealth addresses; the transfer hop itself remains visible |
 
 Pedersen commitments provide **information-theoretic hiding** - even with unlimited computing power and perfect knowledge of the system, the amount cannot be extracted from the commitment alone.
