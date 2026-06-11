@@ -71,7 +71,7 @@ That dependency produces the model's well-known costs:
 
 The shielded model (the family SIP belongs to) takes a different bet: instead of hiding you in a crowd, it makes the observable data **cryptographically meaningless**. Three pieces do the work:
 
-**Stealth addresses — a new mailbox for every package.** You publish one *meta-address*. Anyone who pays you derives, from it plus a random ephemeral key, a brand-new one-time address that only your private key can detect and claim. A hundred payments to you land on a hundred unconnected addresses. There is nothing to reuse, nothing to profile, and the unlinkability holds even if you're the only user on the network — it's math, not crowd cover.
+**Stealth addresses — a new mailbox for every package.** You publish one *meta-address*. Anyone who pays you derives, from it plus a random ephemeral key, a brand-new one-time address that only your private keys can detect and claim. A hundred payments to you land on a hundred unconnected addresses. There is nothing to reuse, nothing to profile, and the unlinkability holds even if you're the only user on the network — it's math, not crowd cover.
 
 **Pedersen commitments — a tamper-proof sealed envelope.** Amounts are published as commitments: `C = amount·G + blinding·H`. The envelope *hides* (the amount never appears in the announcement), *binds* (you can't quietly change the contents after sealing), and — the genuinely magical part — commitments are *homomorphic*: envelopes can be added without opening them, so totals verify while individual amounts stay sealed. Two commitments to the identical amount look completely unrelated, which is why amount-matching attacks that work on pools get nothing here.
 
