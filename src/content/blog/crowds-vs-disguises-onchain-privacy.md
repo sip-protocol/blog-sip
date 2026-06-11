@@ -26,7 +26,7 @@ relatedPosts:
 
 There's a particular kind of trader on Solana who has learned to dread being good at their job: the profitable liquidity provider.
 
-Picture one. She's developed real edge on Meteora DLMM pools — which pairs, which bin ranges, when to reposition. Her positions print. And because every transaction on Solana is public, her edge has become a broadcast. Copy-trade feeds index profitable wallets and republish their entries to subscribers in near real time. Within a few blocks of every position she opens, mirrored capital crowds into her bins, dilutes her fee capture, and front-runs her exits.
+Picture one. She's developed real edge on Meteora DLMM pools — which pairs, which bin ranges, when to reposition. Her positions print. And because every transaction on Solana is public, her edge has become a broadcast. Copy-trade feeds index profitable wallets and republish their entries to subscribers in near real time. Within seconds of every position she opens, mirrored capital crowds into her bins, dilutes her fee capture, and front-runs her exits.
 
 Here's the detail most people miss: **the bots never knew who she was.** They didn't need her name, her Twitter, or her KYC file. They followed *where money moved*. Her wallet address was identity enough.
 
@@ -56,7 +56,7 @@ The mixer model (Tornado Cash pioneered it; several Solana protocols run variant
 
 The deposit↔withdraw link is cryptographically severed. That's a genuine break of the **graph** axis, and it's the mixer's superpower.
 
-But notice where the privacy actually comes from: **the crowd.** Your withdrawal could be any of the deposits sitting in the pool — so your protection equals the size and activity of that pool, the *anonymity set*. Ten thousand active deposits: strong. Forty, mostly dormant: an analyst's afternoon project.
+But notice where the privacy actually comes from: **the crowd.** Your withdrawal could be any of the deposits sitting in the pool — so your protection equals the size and activity of that pool, the *anonymity set*. Ten thousand active deposits: strong. Forty, mostly dormant: you're exposed.
 
 That dependency produces the model's well-known costs:
 
@@ -75,7 +75,7 @@ The shielded model (the family SIP belongs to) takes a different bet: instead of
 
 **Pedersen commitments — a tamper-proof sealed envelope.** Amounts are published as commitments: `C = amount·G + blinding·H`. The envelope *hides* (the amount never appears), *binds* (you can't quietly change the contents after sealing), and — the genuinely magical part — commitments are *homomorphic*: envelopes can be added without opening them, so totals verify while individual amounts stay sealed. Two commitments to the identical amount look completely unrelated, which is why amount-matching attacks that work on pools get nothing here.
 
-**Viewing keys — the official envelope opener.** Because the envelope has a designated opener, you get something a mixer structurally cannot offer: *selective disclosure*. Hand a viewing key to your auditor, your accountant, or an exchange's compliance desk, and they can verify your flows — without you exposing anything to the public, and without them getting spending power. Privacy that can prove itself clean.
+**Viewing keys — the official envelope opener.** Because the envelope has a designated opener, you get something a mixer structurally cannot offer: *selective disclosure*. Hand a viewing key to your auditor, your accountant, or an exchange's compliance desk, and they can verify your flows — read-only, no spending power, and nothing revealed to the rest of the world. Privacy that can prove itself clean.
 
 ![Stealth addresses, Pedersen commitments, and timing correlation explained with analogies](/images/crowds-vs-disguises/three-shielded-concepts.svg)
 
@@ -98,7 +98,7 @@ The good news: timing is the most application-fixable axis there is. Whatever pr
 - **Jitter.** Randomize the delay between related operations. Minutes to hours, never a fixed offset.
 - **Split.** Break one logical transfer into several, at different times.
 - **Round.** Use unremarkable amounts; don't move 1,234.56789 twice.
-- **Headroom.** Randomize what's left behind so input and output sums don't reconcile neatly.
+- **Headroom.** Leave a random unspent residual behind so input and output amounts never sum cleanly — amount correlation needs neat arithmetic to work.
 
 If you're building on a shielded system, treat these as mandatory at low volume — and good hygiene forever. As traffic grows, the ambient crowd thickens and timing attacks degrade on their own; jitter just stops being load-bearing.
 
@@ -112,7 +112,7 @@ Different threats, different axes, different right answers. Which is why the dev
 
 ## Where this converges
 
-The two models aren't rivals forever; they compose. A pooled vault whose withdrawals are authorized by ZK notes (the crowd) paying out to stealth addresses with committed amounts and viewing-key disclosure (the disguise) covers all four axes plus compliance in one stack. The building blocks already exist in public: ZK funding-proof circuits, and pool-with-verifier deployments running on EVM testnets with gasless relayer exits. Composing them on high-throughput chains is the obvious next chapter for this space — and the direction we're building toward.
+The two models aren't rivals forever; they compose. A pooled vault whose withdrawals are authorized by ZK notes (the crowd) paying out to stealth addresses with committed amounts and viewing-key disclosure (the disguise) covers all four axes plus compliance in one stack. The building blocks already exist in public: ZK funding-proof circuits, on-chain verifiers with gasless relayer exits on EVM testnets, and the stealth-plus-commitment layer already running in production. Composing them on high-throughput chains is the obvious next chapter for this space — and the direction we're building toward.
 
 ## Choosing honestly
 
