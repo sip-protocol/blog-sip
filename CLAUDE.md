@@ -20,11 +20,11 @@ npm run preview      # Preview production build
 
 ## Tech Stack
 
-- **Framework:** Astro 5.x with TypeScript (strict)
+- **Framework:** Astro 6.x with TypeScript (strict)
 - **Styling:** Tailwind CSS v4
 - **Content:** MDX with Content Collections
-- **Deployment:** Docker + nginx (GHCR → VPS, port 5004)
-- **Posts:** 25 published (M16 target: 12 — exceeded)
+- **Deployment:** Vercel (Git auto-deploy; migrated off VPS 2026-05-31)
+- **Posts:** 33 published (M16 target: 12 — exceeded)
 
 ---
 
@@ -154,19 +154,20 @@ import MyComponent from '../components/MyComponent.astro'
 
 ## Deployment
 
-### Docker Build
+Live on **Vercel** via Git integration — push to `main` auto-deploys (migrated off the VPS 2026-05-31). The Astro config selects the Vercel adapter when `VERCEL=1`, falling back to the Node standalone server (`@astrojs/node`) elsewhere.
+
+- **Domain:** blog.sip-protocol.org
+- **Project:** `sip-blog` (Vercel scope `rectors-projects`)
+- **Build:** `astro build && npx pagefind --site dist/client`
+
+### Docker Fallback (rollback only)
+
+A `Dockerfile` is retained for VPS rollback. The Node standalone build serves on port 80.
 
 ```bash
 docker build -t blog-sip .
 docker run -p 5004:80 blog-sip
 ```
-
-### VPS Details
-
-- **Port:** 5004
-- **Container:** `sip-blog`
-- **Domain:** blog.sip-protocol.org
-- **SSL:** Let's Encrypt (auto-renew)
 
 ---
 
@@ -202,4 +203,4 @@ docker run -p 5004:80 blog-sip
 
 ---
 
-**Last Updated:** 2026-01-25
+**Last Updated:** 2026-06-12
