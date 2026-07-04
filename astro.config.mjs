@@ -15,7 +15,13 @@ import vercel from '@astrojs/vercel'
 // serverless function). Everywhere else — local dev and the VPS Docker image built
 // by deploy.yml — we keep the Node standalone server so the VPS remains a working
 // rollback target during the DNS cutover window.
-const adapter = process.env.VERCEL ? vercel() : node({ mode: 'standalone' })
+const adapter = process.env.VERCEL
+  ? vercel({
+      webAnalytics: {
+        enabled: true,
+      },
+    })
+  : node({ mode: 'standalone' })
 
 // https://astro.build/config
 export default defineConfig({
