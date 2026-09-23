@@ -1,4 +1,5 @@
 // @ts-check
+import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
@@ -17,44 +18,33 @@ import vercel from '@astrojs/vercel'
 // rollback target during the DNS cutover window.
 const adapter = process.env.VERCEL ? vercel() : node({ mode: 'standalone' })
 
+const markdownPlugins = {
+  remarkPlugins: [remarkGfm],
+  rehypePlugins: [
+    rehypeSlug,
+    [
+      rehypeAutolinkHeadings,
+      {
+        behavior: 'wrap',
+        properties: {
+          className: ['anchor-link'],
+        },
+      },
+    ],
+  ],
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://blog.sip-protocol.org',
   adapter,
 
-  integrations: [
-    mdx({
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [
-        rehypeSlug,
-        [
-          rehypeAutolinkHeadings,
-          {
-            behavior: 'wrap',
-            properties: {
-              className: ['anchor-link'],
-            },
-          },
-        ],
-      ],
-    }),
-    sitemap(),
-  ],
+  integrations: [mdx(), sitemap()],
 
   markdown: {
-    remarkPlugins: [remarkGfm],
-    rehypePlugins: [
-      rehypeSlug,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: 'wrap',
-          properties: {
-            className: ['anchor-link'],
-          },
-        },
-      ],
-    ],
+    // Astro 7 defaults to the Sätteri pipeline; stay on the unified pipeline so
+    // the remark/rehype plugins keep working. MDX inherits them from the processor.
+    processor: unified(markdownPlugins),
     shikiConfig: {
       theme: 'github-dark',
       wrap: true,
