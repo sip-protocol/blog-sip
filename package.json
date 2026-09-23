@@ -20,7 +20,7 @@
     "@astrojs/node": "^11.0.2",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
-    "@astrojs/vercel": "^10.0.2",
+    "@astrojs/vercel": "^11.0.3",
     "@tailwindcss/vite": "^4.3.3",
     "@vercel/og": "^0.11.1",
     "astro": "^7.2.8",
